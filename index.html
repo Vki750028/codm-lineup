@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CODM 手雷地圖 - 使用者模式</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #map-container {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    #map {
+      width: 100%;
+      display: block;
+    }
+    .point {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .point.yellow { background-color: yellow; }
+    .point.red { background-color: red; }
+    .line {
+      position: absolute;
+      pointer-events: none;
+    }
+    .controls {
+      padding: 10px;
+      background-color: #f0f0f0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .controls select {
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label>選擇地圖：
+      <select id="map-select"></select>
+    </label>
+    <label>顯示模式：
+      <select id="mode-select">
+        <option value="throw">投擲點 → 顯示對應炸點</option>
+        <option value="blast">炸點 → 顯示對應投擲點</option>
+      </select>
+    </label>
+  </div>
+
+  <div id="map-container">
+    <img id="map" src="" alt="地圖圖像" />
+  </div>
+
+  <script>
+    let maps = {};
+    let currentMapKey = "";
+    let data = [];
+
+    const mapContainer = document.getElementById('map-container');
+    const mapImg = document.getElementById('map');
+    const mapSelect = document.getElementById('map-select');
+
+    const createPoint = (x, y, color, meta) => {
+      const p = document.createElement('div');
+      p.className = `point ${color}`;
+      p.style.left = `${x - 6}px`;
+      p.style.top = `${y - 6}px`;
+      p.title = `${color === 'yellow' ? '投擲點' : '炸點'}`;
+      if (meta?.video) {
+        p.addEventListener('click', () => {
+          window.open(meta.video, '_blank');
+        });
+      }
+      mapContainer.appendChild(p);
+    };
+
+    const drawLine = (from, to) => {
+      const line = document.createElement('canvas');
+      line.className = 'line';
+      line.width = mapImg.clientWidth;
+      line.height = mapImg.clientHeight;
+      line.style.left = 0;
+      line.style.top = 0;
+      const ctx = line.getContext('2d');
+      ctx.strokeStyle = '#00f';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+      mapContainer.appendChild(line);
+    };
+
+    const renderMapOptions = () => {
+      mapSelect.innerHTML = "";
+      for (let key in maps) {
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = maps[key].name;
+        mapSelect.appendChild(opt);
+      }
+      mapSelect.value = currentMapKey;
+    };
+
+    const render = () => {
+      mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
+      mapImg.src = maps[currentMapKey]?.image || "";
+      const mode = document.getElementById('mode-select').value;
+      data.filter(entry => entry.map === currentMapKey).forEach(entry => {
+        if (mode === 'throw') {
+          createPoint(entry.from.x, entry.from.y, 'yellow', { video: entry.video });
+          createPoint(entry.to.x, entry.to.y, 'red', null);
+          drawLine(entry.from, entry.to);
+        } else {
+          createPoint(entry.to.x, entry.to.y, 'red', { video: entry.video });
+          createPoint(entry.from.x, entry.from.y, 'yellow', null);
+          drawLine(entry.from, entry.to);
+        }
+      });
+    };
+
+    mapSelect.addEventListener('change', (e) => {
+      currentMapKey = e.target.value;
+      render();
+    });
+
+    document.getElementById('mode-select').addEventListener('change', render);
+
+    fetch('data.json')
+      .then(res => res.json())
+      .then(json => {
+        data = json.data;
+        maps = json.maps;
+        currentMapKey = Object.keys(maps)[0] || "";
+        renderMapOptions();
+        render();
+      });
+  </script>
+</body>
+</html>
