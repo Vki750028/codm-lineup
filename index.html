@@ -52,15 +52,42 @@
       padding: 5px 10px;
       font-size: 14px;
     }
+    #mode-toggle {
+      margin-left: auto;
+      font-weight: bold;
+    }
+    #map-hint {
+      text-align: center;
+      font-size: 18px;
+      color: #555;
+      padding: 20px;
+      display: none;
+    }
+    .edit-box {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 5px;
+      z-index: 10;
+    }
+    .edit-box input {
+      width: 200px;
+      margin-bottom: 5px;
+    }
+    .edit-box button {
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
   <div class="controls">
     <label>選擇地圖：
-      <select id="map-select"></select>
+      <select id="map-select">
+        <option value="">請選擇地圖</option>
+      </select>
     </label>
     <label>顯示模式：
-      <select id="mode-select">
+      <select id="mode-select" disabled>
         <option value="throw">投擲點 → 顯示對應炸點</option>
         <option value="blast">炸點 → 顯示對應投擲點</option>
       </select>
@@ -69,12 +96,14 @@
       上傳地圖：<input type="file" id="upload-map" accept="image/*">
     </label>
     <button onclick="exportJSON()">複製 JSON</button>
+    <button id="mode-toggle">切換為編輯模式</button>
   </div>
 
-  <div id="status">目前狀態：等待操作</div>
+  <div id="status">目前狀態：瀏覽模式</div>
 
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
+    <div id="map-hint">請先選擇一張地圖</div>
   </div>
 
   <textarea id="export-area" readonly></textarea>
@@ -83,149 +112,123 @@
     let maps = {};
     let currentMapKey = "";
     let data = [];
-    let tempMapId = 1;
-    let pendingLink = null;
-    let mode = 'throw';
-    let draggingPoint = null;
+    let editMode = false;
+    let selectedPoint = null;
 
-    const mapContainer = document.getElementById('map-container');
-    const mapImg = document.getElementById('map');
     const mapSelect = document.getElementById('map-select');
-    const exportArea = document.getElementById('export-area');
-    const uploadMap = document.getElementById('upload-map');
-    const statusText = document.getElementById('status');
+    const modeSelect = document.getElementById('mode-select');
+    const mapImg = document.getElementById('map');
+    const mapHint = document.getElementById('map-hint');
+    const mapContainer = document.getElementById('map-container');
+    const status = document.getElementById('status');
+    const modeToggle = document.getElementById('mode-toggle');
 
-    const setStatus = (text) => {
-      statusText.textContent = `目前狀態：${text}`;
-    };
+    function updateStatus() {
+      status.textContent = `目前狀態：${editMode ? '編輯模式' : '瀏覽模式'}`;
+    }
 
-    const createPoint = (xRatio, yRatio, color, meta) => {
+    modeToggle.addEventListener('click', () => {
+      editMode = !editMode;
+      updateStatus();
+      render();
+    });
+
+    function createPoint(x, y, type, meta = {}) {
       const p = document.createElement('div');
-      p.className = `point ${color}`;
-      const { width, height } = mapImg.getBoundingClientRect();
-      const x = xRatio * width;
-      const y = yRatio * height;
-      p.style.left = `${x - 6}px`;
-      p.style.top = `${y - 6}px`;
-      p.title = `${color === 'yellow' ? '投擲點' : '炸點'}`;
-      p.dataset.x = xRatio;
-      p.dataset.y = yRatio;
-      p.dataset.color = color;
-      if (meta?.video) {
-        p.dataset.video = meta.video;
-        p.title += `\n影片連結：${meta.video}`;
-      }
-      if (meta?.note) {
-        p.dataset.note = meta.note;
-        p.title += `\n備註：${meta.note}`;
+      p.className = `point ${type}`;
+      p.style.left = `${x * 100}%`;
+      p.style.top = `${y * 100}%`;
+
+      if (!editMode && meta.video) {
+        p.title = '點擊播放影片';
+        p.onclick = () => window.open(meta.video, '_blank');
       }
 
-      p.addEventListener('mousedown', (e) => {
-        draggingPoint = p;
-      });
-
-      document.addEventListener('mouseup', () => {
-        draggingPoint = null;
-      });
-
-      document.addEventListener('mousemove', (e) => {
-        if (!draggingPoint || !mapImg.src) return;
-        const rect = mapImg.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        draggingPoint.dataset.x = x;
-        draggingPoint.dataset.y = y;
-        draggingPoint.style.left = `${x * rect.width - 6}px`;
-        draggingPoint.style.top = `${y * rect.height - 6}px`;
-
-        const xVal = parseFloat(draggingPoint.dataset.x);
-        const yVal = parseFloat(draggingPoint.dataset.y);
-
-        data.forEach(entry => {
-          if (entry.map === currentMapKey) {
-            if (entry.from.x === xVal && entry.from.y === yVal) {
-              entry.from.x = x;
-              entry.from.y = y;
-            }
-            if (entry.to.x === xVal && entry.to.y === yVal) {
-              entry.to.x = x;
-              entry.to.y = y;
-            }
-          }
+      if (editMode) {
+        p.draggable = true;
+        p.title = '拖曳移動，右鍵編輯';
+        p.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', JSON.stringify({x, y, type}));
         });
-        render();
-      });
-
-      p.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (e.shiftKey) {
-          const video = prompt("影片連結", p.dataset.video || "");
-          const note = prompt("備註", p.dataset.note || "");
-          p.dataset.video = video;
-          p.dataset.note = note;
-          p.title = `${p.dataset.color === 'yellow' ? '投擲點' : '炸點'}\n影片連結：${video}\n備註：${note}`;
-
-          data.forEach(entry => {
-            if (entry.map === currentMapKey &&
-                entry.from.x === parseFloat(p.dataset.x) && entry.from.y === parseFloat(p.dataset.y)) {
-              entry.video = video;
-              entry.note = note;
-            }
-          });
-          return;
-        }
-
-        const thisPoint = { x: parseFloat(p.dataset.x), y: parseFloat(p.dataset.y) };
-        if (pendingLink) {
-          if (pendingLink.color !== p.dataset.color) {
-            data.push(pendingLink.color === 'yellow'
-              ? { map: currentMapKey, from: pendingLink, to: thisPoint }
-              : { map: currentMapKey, from: thisPoint, to: pendingLink });
-            pendingLink = null;
-            setStatus("連結完成");
-            render();
-          }
-        } else {
-          pendingLink = thisPoint;
-          pendingLink.color = p.dataset.color;
-          setStatus(p.dataset.color === 'yellow' ? '補炸點模式' : '補投擲點模式');
-        }
-      });
-
-      p.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        const x = parseFloat(p.dataset.x);
-        const y = parseFloat(p.dataset.y);
-        data = data.filter(entry =>
-          !(entry.map === currentMapKey &&
-            ((entry.from.x === x && entry.from.y === y) ||
-             (entry.to.x === x && entry.to.y === y))));
-        render();
-      });
+        p.addEventListener('contextmenu', e => {
+          e.preventDefault();
+          showEditBox(e.pageX, e.pageY, meta, type, x, y);
+        });
+      }
 
       mapContainer.appendChild(p);
-    };
+    }
 
-    const drawLine = (from, to) => {
-      const line = document.createElement('canvas');
-      line.className = 'line';
-      const rect = mapImg.getBoundingClientRect();
-      line.width = rect.width;
-      line.height = rect.height;
-      line.style.left = 0;
-      line.style.top = 0;
-      const ctx = line.getContext('2d');
-      ctx.strokeStyle = '#00f';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(from.x * rect.width, from.y * rect.height);
-      ctx.lineTo(to.x * rect.width, to.y * rect.height);
-      ctx.stroke();
-      mapContainer.appendChild(line);
-    };
+    function showEditBox(x, y, meta, type, px, py) {
+      const box = document.createElement('div');
+      box.className = 'edit-box';
+      box.style.left = `${x}px`;
+      box.style.top = `${y}px`;
 
-    const renderMapOptions = () => {
-      mapSelect.innerHTML = "";
+      const noteInput = document.createElement('input');
+      noteInput.placeholder = '備註';
+      noteInput.value = meta.note || "";
+
+      const videoInput = document.createElement('input');
+      videoInput.placeholder = '影片連結';
+      videoInput.value = meta.video || "";
+
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = '儲存';
+      saveBtn.onclick = () => {
+        meta.note = noteInput.value;
+        meta.video = videoInput.value;
+        document.body.removeChild(box);
+      };
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '刪除點位';
+      deleteBtn.onclick = () => {
+        data = data.filter(entry => {
+          const isThrow = type === 'yellow' && entry.from.x === px && entry.from.y === py;
+          const isBlast = type === 'red' && entry.to.x === px && entry.to.y === py;
+          return !isThrow && !isBlast;
+        });
+        render();
+        document.body.removeChild(box);
+      };
+
+      box.appendChild(noteInput);
+      box.appendChild(videoInput);
+      box.appendChild(saveBtn);
+      box.appendChild(deleteBtn);
+
+      document.body.appendChild(box);
+    }
+
+    function render() {
+      mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
+      if (!currentMapKey) {
+        mapImg.style.display = 'none';
+        mapHint.style.display = 'block';
+        return;
+      }
+      mapImg.src = maps[currentMapKey]?.image || "";
+      mapImg.style.display = 'block';
+      mapHint.style.display = 'none';
+
+      for (const entry of data.filter(d => d.map === currentMapKey)) {
+        createPoint(entry.from.x, entry.from.y, 'yellow', { video: entry.video, note: entry.note });
+        createPoint(entry.to.x, entry.to.y, 'red', {});
+      }
+    }
+
+    function exportJSON() {
+      const output = JSON.stringify({ maps, data }, null, 2);
+      const exportArea = document.getElementById('export-area');
+      exportArea.value = output;
+      exportArea.select();
+      document.execCommand('copy');
+      alert("JSON 已複製到剪貼簿");
+    }
+
+    function renderMapOptions() {
+      mapSelect.innerHTML = "<option value=''>請選擇地圖</option>";
       for (let key in maps) {
         const opt = document.createElement("option");
         opt.value = key;
@@ -233,37 +236,21 @@
         mapSelect.appendChild(opt);
       }
       mapSelect.value = currentMapKey;
-    };
+    }
 
-    const render = () => {
-      mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
-      mapImg.src = maps[currentMapKey]?.image || "";
-      setTimeout(() => {
-        data.filter(entry => entry.map === currentMapKey).forEach(entry => {
-          createPoint(entry.from.x, entry.from.y, 'yellow', { video: entry.video, note: entry.note });
-          createPoint(entry.to.x, entry.to.y, 'red', null);
-          drawLine(entry.from, entry.to);
-        });
-      }, 50);
-    };
-
-    mapSelect.addEventListener('change', (e) => {
+    mapSelect.addEventListener('change', e => {
       currentMapKey = e.target.value;
+      modeSelect.disabled = !currentMapKey;
       render();
     });
 
-    document.getElementById('mode-select').addEventListener('change', e => {
-      mode = e.target.value;
-      render();
-    });
-
-    uploadMap.addEventListener('change', (e) => {
+    document.getElementById('upload-map').addEventListener('change', e => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(evt) {
           const imageURL = evt.target.result;
-          const mapId = `map${tempMapId++}`;
+          const mapId = `map_${Date.now()}`;
           maps[mapId] = { name: file.name.replace(/\.[^/.]+$/, ""), image: imageURL };
           currentMapKey = mapId;
           renderMapOptions();
@@ -272,44 +259,6 @@
         reader.readAsDataURL(file);
       }
     });
-
-    mapContainer.addEventListener('click', (e) => {
-      if (!mapImg.src) return;
-      const rect = mapImg.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      if (pendingLink) {
-        const newColor = pendingLink.color === 'yellow' ? 'red' : 'yellow';
-        const newPoint = { x, y };
-        data.push(pendingLink.color === 'yellow'
-          ? { map: currentMapKey, from: pendingLink, to: newPoint }
-          : { map: currentMapKey, from: newPoint, to: pendingLink });
-        pendingLink = null;
-        setStatus("連結完成");
-      } else {
-        const color = mode === 'throw' ? 'yellow' : 'red';
-        const newPoint = { x, y };
-        pendingLink = newPoint;
-        pendingLink.color = color;
-        setStatus(color === 'yellow' ? '補炸點模式' : '補投擲點模式');
-      }
-      render();
-    });
-
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        pendingLink = null;
-        setStatus("取消補點");
-      }
-    });
-
-    function exportJSON() {
-      const output = JSON.stringify({ maps, data }, null, 2);
-      exportArea.value = output;
-      exportArea.select();
-      document.execCommand('copy');
-      alert("JSON 已複製到剪貼簿");
-    }
 
     fetch('data.json')
       .then(res => res.json())
