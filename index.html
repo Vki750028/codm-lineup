@@ -4,21 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CODM 手雷地圖 - 使用者模式</title>
+
+  <!-- 🔧 頁面樣式設定 -->
   <style>
     body {
       font-family: sans-serif;
       margin: 0;
       padding: 0;
     }
+
+    /* 地圖容器，負責放圖片與點位元素 */
     #map-container {
       position: relative;
       max-width: 100%;
       overflow: hidden;
     }
+
+    /* 地圖圖像設定 */
     #map {
       width: 100%;
       display: block;
     }
+
+    /* 點位樣式 */
     .point {
       position: absolute;
       width: 12px;
@@ -26,8 +34,10 @@
       border-radius: 50%;
       cursor: grab;
     }
-    .point.yellow { background-color: yellow; }
-    .point.red { background-color: red; }
+    .point.yellow { background-color: yellow; }  /* 投擲點 */
+    .point.red { background-color: red; }        /* 炸點 */
+
+    /* 點與點之間的連線樣式 */
     .line {
       position: absolute;
       pointer-events: none;
@@ -35,6 +45,8 @@
       background-color: rgba(0, 0, 255, 0.5);
       transform-origin: 0 0;
     }
+
+    /* 上方功能控制區 */
     .controls {
       padding: 10px;
       background-color: #f0f0f0;
@@ -42,23 +54,32 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .controls select, .controls button, .controls input[type=file] {
       padding: 5px;
     }
+
+    /* JSON 匯出區塊樣式 */
     #export-area {
       width: 100%;
       height: 150px;
     }
+
+    /* 狀態列顯示目前模式（編輯或瀏覽） */
     #status {
       background: #222;
       color: #0f0;
       padding: 5px 10px;
       font-size: 14px;
     }
+
+    /* 切換模式按鈕 */
     #mode-toggle {
       margin-left: auto;
       font-weight: bold;
     }
+
+    /* 初始提示訊息（尚未載入地圖時） */
     #map-hint {
       text-align: center;
       font-size: 18px;
@@ -66,6 +87,8 @@
       padding: 20px;
       display: none;
     }
+
+    /* 編輯框（點右鍵時出現） */
     .edit-box {
       position: absolute;
       background: white;
@@ -83,6 +106,8 @@
   </style>
 </head>
 <body>
+
+  <!-- 🔘 功能列：選地圖、模式切換、上傳、匯出 -->
   <div class="controls">
     <label>選擇地圖：
       <select id="map-select">
@@ -102,24 +127,30 @@
     <button id="mode-toggle">切換為編輯模式</button>
   </div>
 
+  <!-- 🔄 狀態列 -->
   <div id="status">目前狀態：瀏覽模式</div>
 
+  <!-- 🗺️ 地圖顯示區塊 -->
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
     <div id="map-hint">請先選擇一張地圖</div>
   </div>
 
+  <!-- 🧾 JSON 輸出區 -->
   <textarea id="export-area" readonly></textarea>
 
+  <!-- 🧠 主程式邏輯區（JavaScript） -->
   <script>
-    let maps = {};
-    let currentMapKey = "";
-    let data = [];
-    let editMode = false;
-    let selectedPoint = null;
-    let stage = null;
-    let lineElements = [];
+    // 初始化變數
+    let maps = {};             // 儲存所有地圖資訊
+    let currentMapKey = "";    // 當前地圖 key
+    let data = [];             // 儲存所有投擲資料
+    let editMode = false;      // 是否為編輯模式
+    let selectedPoint = null;  // 使用者選取的點
+    let stage = null;          // 目前顯示階段（throw / blast）
+    let lineElements = [];     // 繪製的線段 DOM 物件集合
 
+    // 快捷參考 DOM 元素
     const mapSelect = document.getElementById('map-select');
     const modeSelect = document.getElementById('mode-select');
     const mapImg = document.getElementById('map');
@@ -128,11 +159,13 @@
     const status = document.getElementById('status');
     const modeToggle = document.getElementById('mode-toggle');
 
+    // 更新模式狀態顯示
     function updateStatus() {
       status.textContent = `目前狀態：${editMode ? '編輯模式' : '瀏覽模式'}`;
       modeToggle.textContent = editMode ? '切換為瀏覽模式' : '切換為編輯模式';
     }
 
+    // 根據兩點座標更新連線位置
     function updateLinePosition(lineEl, from, to) {
       const mapRect = mapImg.getBoundingClientRect();
       const x1 = from.x * mapRect.width;
@@ -141,12 +174,14 @@
       const y2 = to.y * mapRect.height;
       const length = Math.hypot(x2 - x1, y2 - y1);
       const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+
       lineEl.style.left = `${x1}px`;
       lineEl.style.top = `${y1}px`;
       lineEl.style.width = `${length}px`;
       lineEl.style.transform = `rotate(${angle}deg)`;
     }
 
+    // 畫出一條連線（丟點到炸點）
     function drawLine(from, to) {
       const line = document.createElement('div');
       line.className = 'line';
@@ -155,17 +190,20 @@
       updateLinePosition(line, from, to);
     }
 
+    // 建立一個點位
     function createPoint(x, y, type, meta = {}) {
       const p = document.createElement('div');
       p.className = `point ${type}`;
       p.style.left = `${x * 100}%`;
       p.style.top = `${y * 100}%`;
 
+      // 使用者模式點擊可播放影片
       if (!editMode && meta.video) {
         p.title = '點擊播放影片';
         p.onclick = () => window.open(meta.video, '_blank');
       }
 
+      // 使用者點選後顯示關聯連線
       if (!editMode && stage) {
         p.onclick = () => {
           selectedPoint = { x, y };
@@ -173,6 +211,7 @@
         };
       }
 
+      // 編輯模式：可拖曳與右鍵編輯
       if (editMode) {
         p.draggable = true;
         p.title = '拖曳移動，右鍵編輯';
@@ -211,10 +250,12 @@
       mapContainer.appendChild(p);
     }
 
+    // 判斷兩點是否幾乎相同
     function isSame(p1, p2) {
       return Math.abs(p1.x - p2.x) < 0.01 && Math.abs(p1.y - p2.y) < 0.01;
     }
 
+    // 主繪製函數：根據目前狀態更新畫面
     function render() {
       mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
       lineElements = [];
@@ -224,12 +265,14 @@
         mapHint.style.display = 'block';
         return;
       }
+
       mapImg.src = maps[currentMapKey]?.image || "";
       mapImg.style.display = 'block';
       mapHint.style.display = 'none';
 
       const entries = data.filter(d => d.map === currentMapKey);
 
+      // 使用者點擊特定點後顯示關聯
       if (!editMode && stage === 'throw' && selectedPoint) {
         const related = entries.filter(d => isSame(d.from, selectedPoint));
         createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
@@ -261,6 +304,7 @@
       }
     }
 
+    // 匯出 JSON 內容
     function exportJSON() {
       const output = JSON.stringify({ maps, data }, null, 2);
       const exportArea = document.getElementById('export-area');
@@ -270,6 +314,7 @@
       alert("JSON 已複製到剪貼簿");
     }
 
+    // 根據 maps 資料動態產生選單
     function renderMapOptions() {
       mapSelect.innerHTML = "<option value='' selected>請選擇地圖</option>";
       for (let key in maps) {
@@ -280,6 +325,7 @@
       }
     }
 
+    // 切換地圖時更新畫面
     mapSelect.addEventListener('change', e => {
       currentMapKey = e.target.value;
       modeSelect.disabled = !currentMapKey;
@@ -287,7 +333,17 @@
       stage = null;
       render();
     });
+	// 🔧 新增：切換編輯模式按鈕功能
+	modeToggle.addEventListener('click', () => {
+		editMode = !editMode;           // 編輯模式開關切換
+		selectedPoint = null;           // 清除選取點
+		stage = null;                   // 清除階段
+		modeSelect.disabled = editMode; // 編輯模式時停用顯示模式選單
+		updateStatus();                 // 更新畫面上狀態
+		render();                       // 重繪畫面
+	});
 
+    // 上傳地圖功能
     document.getElementById('upload-map').addEventListener('change', e => {
       const file = e.target.files[0];
       if (file) {
@@ -304,6 +360,7 @@
       }
     });
 
+    // 載入資料並初始化
     fetch('data.json')
       .then(res => res.json())
       .then(json => {
