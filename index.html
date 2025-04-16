@@ -63,13 +63,27 @@
       padding: 20px;
       display: none;
     }
+    .edit-box {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 5px;
+      z-index: 10;
+    }
+    .edit-box input {
+      width: 200px;
+      margin-bottom: 5px;
+    }
+    .edit-box button {
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
   <div class="controls">
     <label>選擇地圖：
       <select id="map-select">
-        <option value="">請選擇地圖</option>
+        <option value="" selected>請選擇地圖</option>
       </select>
     </label>
     <label>顯示模式：
@@ -120,6 +134,37 @@
       render();
     });
 
+    mapImg.addEventListener('click', e => {
+      if (!editMode || !currentMapKey) return;
+
+      const rect = mapImg.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const type = prompt("新增哪種類型的點？輸入 'yellow'（投擲點）或 'red'（炸點）：");
+      if (type !== 'yellow' && type !== 'red') return;
+
+      if (type === 'yellow') {
+        data.push({
+          map: currentMapKey,
+          from: { x, y },
+          to: { x: 0.5, y: 0.5 },
+          video: '',
+          note: ''
+        });
+      } else if (type === 'red') {
+        data.push({
+          map: currentMapKey,
+          from: { x: 0.5, y: 0.5 },
+          to: { x, y },
+          video: '',
+          note: ''
+        });
+      }
+
+      render();
+    });
+
     function createPoint(x, y, type, meta = {}) {
       const p = document.createElement('div');
       p.className = `point ${type}`;
@@ -139,14 +184,54 @@
         });
         p.addEventListener('contextmenu', e => {
           e.preventDefault();
-          const note = prompt("備註：", meta.note || "");
-          const video = prompt("影片連結：", meta.video || "");
-          if (note !== null) meta.note = note;
-          if (video !== null) meta.video = video;
+          showEditBox(e.pageX, e.pageY, meta, type, x, y);
         });
       }
 
       mapContainer.appendChild(p);
+    }
+
+    function showEditBox(x, y, meta, type, px, py) {
+      const box = document.createElement('div');
+      box.className = 'edit-box';
+      box.style.left = `${x}px`;
+      box.style.top = `${y}px`;
+
+      const noteInput = document.createElement('input');
+      noteInput.placeholder = '備註';
+      noteInput.value = meta.note || "";
+
+      const videoInput = document.createElement('input');
+      videoInput.placeholder = '影片連結';
+      videoInput.value = meta.video || "";
+
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = '儲存';
+      saveBtn.onclick = () => {
+        meta.note = noteInput.value;
+        meta.video = videoInput.value;
+        document.body.removeChild(box);
+        render();
+      };
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '刪除點位';
+      deleteBtn.onclick = () => {
+        data = data.filter(entry => {
+          const isThrow = type === 'yellow' && entry.from.x === px && entry.from.y === py;
+          const isBlast = type === 'red' && entry.to.x === px && entry.to.y === py;
+          return !isThrow && !isBlast;
+        });
+        render();
+        document.body.removeChild(box);
+      };
+
+      box.appendChild(noteInput);
+      box.appendChild(videoInput);
+      box.appendChild(saveBtn);
+      box.appendChild(deleteBtn);
+
+      document.body.appendChild(box);
     }
 
     function render() {
@@ -176,14 +261,13 @@
     }
 
     function renderMapOptions() {
-      mapSelect.innerHTML = "<option value=''>請選擇地圖</option>";
+      mapSelect.innerHTML = "<option value='' selected>請選擇地圖</option>";
       for (let key in maps) {
         const opt = document.createElement("option");
         opt.value = key;
         opt.textContent = maps[key].name;
         mapSelect.appendChild(opt);
       }
-      mapSelect.value = currentMapKey;
     }
 
     mapSelect.addEventListener('change', e => {
@@ -213,7 +297,7 @@
       .then(json => {
         data = json.data;
         maps = json.maps;
-        currentMapKey = Object.keys(maps)[0] || "";
+        currentMapKey = "";
         renderMapOptions();
         render();
       });
