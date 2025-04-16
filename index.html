@@ -114,6 +114,7 @@
     let data = [];
     let editMode = false;
     let selectedPoint = null;
+    let stage = null;
 
     const mapSelect = document.getElementById('map-select');
     const modeSelect = document.getElementById('mode-select');
@@ -130,40 +131,46 @@
 
     modeToggle.addEventListener('click', () => {
       editMode = !editMode;
+      selectedPoint = null;
+      stage = null;
       updateStatus();
       render();
     });
 
     mapImg.addEventListener('click', e => {
-      if (!editMode || !currentMapKey) return;
+      if (!currentMapKey) return;
 
       const rect = mapImg.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      const type = prompt("新增哪種類型的點？輸入 'yellow'（投擲點）或 'red'（炸點）：");
-      if (type !== 'yellow' && type !== 'red') return;
+      if (editMode) {
+        const type = prompt("新增哪種類型的點？輸入 'yellow'（投擲點）或 'red'（炸點）：");
+        if (type !== 'yellow' && type !== 'red') return;
 
-      if (type === 'yellow') {
-        data.push({
-          map: currentMapKey,
-          from: { x, y },
-          to: { x: 0.5, y: 0.5 },
-          video: '',
-          note: ''
-        });
-      } else if (type === 'red') {
-        data.push({
-          map: currentMapKey,
-          from: { x: 0.5, y: 0.5 },
-          to: { x, y },
-          video: '',
-          note: ''
-        });
+        if (type === 'yellow') {
+          data.push({ map: currentMapKey, from: { x, y }, to: { x: 0.5, y: 0.5 }, video: '', note: '' });
+        } else {
+          data.push({ map: currentMapKey, from: { x: 0.5, y: 0.5 }, to: { x, y }, video: '', note: '' });
+        }
+
+        render();
+      } else {
+        if (modeSelect.value === 'throw') {
+          selectedPoint = { x, y };
+          stage = 'throw';
+          render();
+        } else if (modeSelect.value === 'blast') {
+          selectedPoint = { x, y };
+          stage = 'blast';
+          render();
+        }
       }
-
-      render();
     });
+
+    function isSame(p1, p2) {
+      return Math.abs(p1.x - p2.x) < 0.01 && Math.abs(p1.y - p2.y) < 0.01;
+    }
 
     function createPoint(x, y, type, meta = {}) {
       const p = document.createElement('div');
@@ -176,12 +183,16 @@
         p.onclick = () => window.open(meta.video, '_blank');
       }
 
+      if (!editMode && stage) {
+        p.onclick = () => {
+          selectedPoint = { x, y };
+          render();
+        };
+      }
+
       if (editMode) {
         p.draggable = true;
         p.title = '拖曳移動，右鍵編輯';
-        p.addEventListener('dragstart', e => {
-          e.dataTransfer.setData('text/plain', JSON.stringify({x, y, type}));
-        });
         p.addEventListener('contextmenu', e => {
           e.preventDefault();
           showEditBox(e.pageX, e.pageY, meta, type, x, y);
@@ -189,49 +200,6 @@
       }
 
       mapContainer.appendChild(p);
-    }
-
-    function showEditBox(x, y, meta, type, px, py) {
-      const box = document.createElement('div');
-      box.className = 'edit-box';
-      box.style.left = `${x}px`;
-      box.style.top = `${y}px`;
-
-      const noteInput = document.createElement('input');
-      noteInput.placeholder = '備註';
-      noteInput.value = meta.note || "";
-
-      const videoInput = document.createElement('input');
-      videoInput.placeholder = '影片連結';
-      videoInput.value = meta.video || "";
-
-      const saveBtn = document.createElement('button');
-      saveBtn.textContent = '儲存';
-      saveBtn.onclick = () => {
-        meta.note = noteInput.value;
-        meta.video = videoInput.value;
-        document.body.removeChild(box);
-        render();
-      };
-
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = '刪除點位';
-      deleteBtn.onclick = () => {
-        data = data.filter(entry => {
-          const isThrow = type === 'yellow' && entry.from.x === px && entry.from.y === py;
-          const isBlast = type === 'red' && entry.to.x === px && entry.to.y === py;
-          return !isThrow && !isBlast;
-        });
-        render();
-        document.body.removeChild(box);
-      };
-
-      box.appendChild(noteInput);
-      box.appendChild(videoInput);
-      box.appendChild(saveBtn);
-      box.appendChild(deleteBtn);
-
-      document.body.appendChild(box);
     }
 
     function render() {
@@ -245,9 +213,33 @@
       mapImg.style.display = 'block';
       mapHint.style.display = 'none';
 
-      for (const entry of data.filter(d => d.map === currentMapKey)) {
-        createPoint(entry.from.x, entry.from.y, 'yellow', { video: entry.video, note: entry.note });
-        createPoint(entry.to.x, entry.to.y, 'red', {});
+      const entries = data.filter(d => d.map === currentMapKey);
+
+      if (!editMode && stage === 'throw' && selectedPoint) {
+        const related = entries.filter(d => isSame(d.from, selectedPoint));
+        createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
+        for (const d of related) {
+          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+        }
+      } else if (!editMode && stage === 'blast' && selectedPoint) {
+        const related = entries.filter(d => isSame(d.to, selectedPoint));
+        createPoint(selectedPoint.x, selectedPoint.y, 'red');
+        for (const d of related) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+        }
+      } else if (!editMode && modeSelect.value === 'throw') {
+        for (const d of entries) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+        }
+      } else if (!editMode && modeSelect.value === 'blast') {
+        for (const d of entries) {
+          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+        }
+      } else if (editMode) {
+        for (const d of entries) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
+          createPoint(d.to.x, d.to.y, 'red', {});
+        }
       }
     }
 
@@ -273,6 +265,8 @@
     mapSelect.addEventListener('change', e => {
       currentMapKey = e.target.value;
       modeSelect.disabled = !currentMapKey;
+      selectedPoint = null;
+      stage = null;
       render();
     });
 
