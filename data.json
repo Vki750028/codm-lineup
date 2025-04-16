@@ -2,7 +2,7 @@
   "maps": {
     "standoff": {
       "name": "Standoff",
-      "image": "/standoffMap.jpg"
+      "image": "public/standoffMap.jpg"
     }
   },
   "data": [
