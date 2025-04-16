@@ -333,6 +333,12 @@
       stage = null;
       render();
     });
+	// 切換「投擲點/炸點」
+	modeSelect.addEventListener('change', () => {
+		selectedPoint = null;
+		stage = null;
+		render(); // ← 重新根據新的模式顯示對應的點
+	});
 	// 🔧 新增：切換編輯模式按鈕功能
 	modeToggle.addEventListener('click', () => {
 		editMode = !editMode;           // 編輯模式開關切換
