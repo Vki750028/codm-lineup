@@ -3,6 +3,10 @@
     "standoff": {
       "name": "Standoff",
       "image": "public/standoffMap.jpg"
+    },
+    "FiringRange": {
+      "name": "FiringRange",
+      "image": "public/FiringRange.jpg"
     }
   },
   "data": [
@@ -17,6 +21,30 @@
         "y": 0.3687455776811887
       },
       "video": "https://www.tiktok.com/@vki.07/video/7492795739832143159"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.2357142857142857,
+        "y": 0.7061026166807828,
+        "color": "yellow"
+      },
+      "to": {
+        "x": 0.72,
+        "y": 0.8059555119689743
+      }
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.6892857142857143,
+        "y": 0.4108233406142736,
+        "color": "yellow"
+      },
+      "to": {
+        "x": 0.7128571428571429,
+        "y": 0.8152275665314492
+      }
     }
   ]
 }
