@@ -31,6 +31,9 @@
     .line {
       position: absolute;
       pointer-events: none;
+      height: 2px;
+      background-color: rgba(0, 0, 255, 0.5);
+      transform-origin: 0 0;
     }
     .controls {
       padding: 10px;
@@ -115,6 +118,7 @@
     let editMode = false;
     let selectedPoint = null;
     let stage = null;
+    let lineElements = [];
 
     const mapSelect = document.getElementById('map-select');
     const modeSelect = document.getElementById('mode-select');
@@ -129,47 +133,26 @@
       modeToggle.textContent = editMode ? '切換為瀏覽模式' : '切換為編輯模式';
     }
 
-    modeToggle.addEventListener('click', () => {
-      editMode = !editMode;
-      selectedPoint = null;
-      stage = null;
-      updateStatus();
-      render();
-    });
+    function updateLinePosition(lineEl, from, to) {
+      const mapRect = mapImg.getBoundingClientRect();
+      const x1 = from.x * mapRect.width;
+      const y1 = from.y * mapRect.height;
+      const x2 = to.x * mapRect.width;
+      const y2 = to.y * mapRect.height;
+      const length = Math.hypot(x2 - x1, y2 - y1);
+      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      lineEl.style.left = `${x1}px`;
+      lineEl.style.top = `${y1}px`;
+      lineEl.style.width = `${length}px`;
+      lineEl.style.transform = `rotate(${angle}deg)`;
+    }
 
-    mapImg.addEventListener('click', e => {
-      if (!currentMapKey) return;
-
-      const rect = mapImg.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-
-      if (editMode) {
-        const type = prompt("新增哪種類型的點？輸入 'yellow'（投擲點）或 'red'（炸點）：");
-        if (type !== 'yellow' && type !== 'red') return;
-
-        if (type === 'yellow') {
-          data.push({ map: currentMapKey, from: { x, y }, to: { x: 0.5, y: 0.5 }, video: '', note: '' });
-        } else {
-          data.push({ map: currentMapKey, from: { x: 0.5, y: 0.5 }, to: { x, y }, video: '', note: '' });
-        }
-
-        render();
-      } else {
-        if (modeSelect.value === 'throw') {
-          selectedPoint = { x, y };
-          stage = 'throw';
-          render();
-        } else if (modeSelect.value === 'blast') {
-          selectedPoint = { x, y };
-          stage = 'blast';
-          render();
-        }
-      }
-    });
-
-    function isSame(p1, p2) {
-      return Math.abs(p1.x - p2.x) < 0.01 && Math.abs(p1.y - p2.y) < 0.01;
+    function drawLine(from, to) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      mapContainer.appendChild(line);
+      lineElements.push({ line, from, to });
+      updateLinePosition(line, from, to);
     }
 
     function createPoint(x, y, type, meta = {}) {
@@ -197,13 +180,45 @@
           e.preventDefault();
           showEditBox(e.pageX, e.pageY, meta, type, x, y);
         });
+
+        p.addEventListener('dragstart', e => {
+          e.dataTransfer.setDragImage(new Image(), 0, 0);
+          p.dataset.dragging = true;
+        });
+
+        p.addEventListener('dragend', e => {
+          const rect = mapImg.getBoundingClientRect();
+          const newX = (e.clientX - rect.left) / rect.width;
+          const newY = (e.clientY - rect.top) / rect.height;
+
+          for (const d of data) {
+            if (d.map !== currentMapKey) continue;
+            if (type === 'yellow' && isSame(d.from, { x, y })) {
+              d.from.x = newX;
+              d.from.y = newY;
+            } else if (type === 'red' && isSame(d.to, { x, y })) {
+              d.to.x = newX;
+              d.to.y = newY;
+            }
+          }
+
+          for (const obj of lineElements) {
+            updateLinePosition(obj.line, obj.from, obj.to);
+          }
+        });
       }
 
       mapContainer.appendChild(p);
     }
 
+    function isSame(p1, p2) {
+      return Math.abs(p1.x - p2.x) < 0.01 && Math.abs(p1.y - p2.y) < 0.01;
+    }
+
     function render() {
       mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
+      lineElements = [];
+
       if (!currentMapKey) {
         mapImg.style.display = 'none';
         mapHint.style.display = 'block';
@@ -220,12 +235,14 @@
         createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
         for (const d of related) {
           createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+          drawLine(d.from, d.to);
         }
       } else if (!editMode && stage === 'blast' && selectedPoint) {
         const related = entries.filter(d => isSame(d.to, selectedPoint));
         createPoint(selectedPoint.x, selectedPoint.y, 'red');
         for (const d of related) {
           createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+          drawLine(d.from, d.to);
         }
       } else if (!editMode && modeSelect.value === 'throw') {
         for (const d of entries) {
@@ -239,6 +256,7 @@
         for (const d of entries) {
           createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
           createPoint(d.to.x, d.to.y, 'red', {});
+          drawLine(d.from, d.to);
         }
       }
     }
