@@ -218,27 +218,28 @@
       }
 	  */ 
 	  // 點擊事件處理
-	  p.onclick = () => {
+	  
 		if (!editMode && stage) {
-			if (stage === 'throw') {
-			// 如果選擇的是投擲點，顯示對應的炸點
-				if (!selectedPoint) {
-					selectedPoint = { x, y };  // 記錄選擇的投擲點
-					render();  // 重新渲染以顯示炸點
-				} else if (meta.video) {
-				window.open(meta.video, '_blank');  // 播放影片
-				}
-			} else if (stage === 'blast') {
-			// 如果選擇的是炸點，顯示對應的投擲點
-				if (!selectedPoint) {
-					selectedPoint = { x, y };  // 記錄選擇的炸點
-					render();  // 重新渲染以顯示投擲點
-				} else if (meta.video) {
+			p.onclick = () => {
+				if (stage === 'throw') {
+				// 如果選擇的是投擲點，顯示對應的炸點
+					if (!selectedPoint) {
+						selectedPoint = { x, y };  // 記錄選擇的投擲點
+						render();  // 重新渲染以顯示炸點
+					} else if (meta.video) {
 					window.open(meta.video, '_blank');  // 播放影片
+					}
+				} else if (stage === 'blast') {
+				// 如果選擇的是炸點，顯示對應的投擲點
+					if (!selectedPoint) {
+						selectedPoint = { x, y };  // 記錄選擇的炸點
+						render();  // 重新渲染以顯示投擲點
+					} else if (meta.video) {
+						window.open(meta.video, '_blank');  // 播放影片
+					}
 				}
-			}
+			};
 		}
-		};
 	  
 
       // 編輯模式：可拖曳與右鍵編輯
