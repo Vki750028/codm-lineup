@@ -403,7 +403,7 @@
 	// 切換「投擲點/炸點」
 	modeSelect.addEventListener('change', () => {
 		selectedPoint = null;
-		stage = null;
+		stage = modeSelect.value;
 		render(); // ← 重新根據新的模式顯示對應的點
 	});
 	
