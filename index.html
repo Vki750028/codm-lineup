@@ -210,9 +210,12 @@
 		} else if (stage){
 			p.title = '點擊查看相關連線';
 			p.onclick= () =>{
-			selectedPoint = {x, y};
-			render();
-		  };
+			// ❗ 若點到的是目前已選的點，就不重繪
+				if (!isSame(selectedPoint || {}, { x, y })) {
+					selectedPoint = {x, y};
+					render();
+				}
+		    };
 		}
 	  }
 
@@ -304,7 +307,7 @@
 			for (const d of entries) {
 				const key = `${d.to.x}-${d.to.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+					createPoint(d.to.x, d.to.y, 'red', {});
 					drawn.add(key);
 				}
 			}
