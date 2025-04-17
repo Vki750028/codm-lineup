@@ -203,18 +203,18 @@
       p.style.top = `${y * 100}%`;
 
       // 使用者模式點擊可播放影片
-      if (!editMode && meta.video) {
-        p.title = '點擊播放影片';
-        p.onclick = () => window.open(meta.video, '_blank');
-      }
-
-      // 使用者點選後顯示關聯連線
-      if (!editMode && stage) {
-        p.onclick = () => {
-          selectedPoint = { x, y };
-          render();
-        };
-      }
+      if (!editMode) {
+		if (meta.enableVideo && meta.video){
+			p.title = '點擊播放影片';
+			p.onclick= () => window.open(meta.video, '_blank');
+		} else if (stage){
+			p.title = '點擊查看相關連線';
+			p.onclick= () =>{
+			selectedPoint = {x, y};
+			render();
+		  };
+		}
+	  }
 
       // 編輯模式：可拖曳與右鍵編輯
       if (editMode) {
@@ -284,14 +284,14 @@
         const related = entries.filter(d => isSame(d.from, selectedPoint));
         createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
         for (const d of related) {
-          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+          createPoint(d.to.x, d.to.y, 'red', { video: d.video, enableVideo: true });
           drawLine(d.from, d.to);
         }
       } else if (!editMode && stage === 'blast' && selectedPoint) {
         const related = entries.filter(d => isSame(d.to, selectedPoint));
         createPoint(selectedPoint.x, selectedPoint.y, 'red');
         for (const d of related) {
-          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: true });
           drawLine(d.from, d.to);
         }
       } else if (!editMode && modeSelect.value === 'throw') {
