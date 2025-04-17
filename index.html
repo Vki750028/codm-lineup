@@ -202,8 +202,7 @@
       p.style.left = `${x * 100}%`;
       p.style.top = `${y * 100}%`;
 
-      /*
-	  // 使用者模式點擊可播放影片
+      // 使用者模式點擊可播放影片
       if (!editMode && meta.video) {
         p.title = '點擊播放影片';
         p.onclick = () => window.open(meta.video, '_blank');
@@ -216,31 +215,6 @@
           render();
         };
       }
-	  */ 
-	  // 點擊事件處理
-	  
-		if (!editMode && stage) {
-			p.onclick = () => {
-				if (stage === 'throw') {
-				// 如果選擇的是投擲點，顯示對應的炸點
-					if (!selectedPoint) {
-						selectedPoint = { x, y };  // 記錄選擇的投擲點
-						render();  // 重新渲染以顯示炸點
-					} else if (meta.video) {
-					window.open(meta.video, '_blank');  // 播放影片
-					}
-				} else if (stage === 'blast') {
-				// 如果選擇的是炸點，顯示對應的投擲點
-					if (!selectedPoint) {
-						selectedPoint = { x, y };  // 記錄選擇的炸點
-						render();  // 重新渲染以顯示投擲點
-					} else if (meta.video) {
-						window.open(meta.video, '_blank');  // 播放影片
-					}
-				}
-			};
-		}
-	  
 
       // 編輯模式：可拖曳與右鍵編輯
       if (editMode) {
@@ -305,9 +279,7 @@
 
       const entries = data.filter(d => d.map === currentMapKey);
 
-
- /*
-	  // 使用者點擊特定點後顯示關聯
+      // 使用者點擊特定點後顯示關聯
       if (!editMode && stage === 'throw' && selectedPoint) {
         const related = entries.filter(d => isSame(d.from, selectedPoint));
         createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
@@ -337,26 +309,6 @@
           drawLine(d.from, d.to);
         }
       }
-*/
-	    // 根據選擇的模式渲染
-		if (!editMode && stage === 'blast' && selectedPoint) {
-		// 如果是選擇炸點，顯示相關的投擲點
-			const related = entries.filter(d => isSame(d.to, selectedPoint));
-			createPoint(selectedPoint.x, selectedPoint.y, 'red');  // 畫出紅色炸點
-			for (const d of related) {
-				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });  // 只有投擲點才會帶有影片
-				drawLine(d.from, d.to);  // 畫出連線
-			}
-		} else if (!editMode && stage === 'throw' && selectedPoint) {
-			// 如果是選擇投擲點，顯示相關的炸點
-			const related = entries.filter(d => isSame(d.from, selectedPoint));
-			createPoint(selectedPoint.x, selectedPoint.y, 'yellow');  // 畫出黃色投擲點
-			for (const d of related) {
-				createPoint(d.to.x, d.to.y, 'red', { video: d.video });  // 只有炸點才會帶有影片
-				drawLine(d.from, d.to);  // 畫出連線
-			}
-		}
-		
     }
 	
 	// 顯示右鍵編輯框
@@ -454,7 +406,6 @@
 		stage = null;
 		render(); // ← 重新根據新的模式顯示對應的點
 	});
-	
 	
 	// 🔧 新增：切換編輯模式按鈕功能
 	modeToggle.addEventListener('click', () => {
