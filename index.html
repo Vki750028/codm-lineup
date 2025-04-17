@@ -226,30 +226,32 @@
         });
 
         p.addEventListener('dragstart', e => {
-          e.dataTransfer.setDragImage(new Image(), 0, 0);
-          p.dataset.dragging = true;
-        });
+			e.dataTransfer.setDragImage(new Image(), 0, 0);
+			p.dataset.dragging = true;
+		});
 
         p.addEventListener('dragend', e => {
-          const rect = mapImg.getBoundingClientRect();
-          const newX = (e.clientX - rect.left) / rect.width;
-          const newY = (e.clientY - rect.top) / rect.height;
+			const rect = mapImg.getBoundingClientRect();
+			const newX = (e.clientX - rect.left) / rect.width;
+			const newY = (e.clientY - rect.top) / rect.height;
 
-          for (const d of data) {
-            if (d.map !== currentMapKey) continue;
-            if (type === 'yellow' && isSame(d.from, { x, y })) {
-              d.from.x = newX;
-              d.from.y = newY;
-            } else if (type === 'red' && isSame(d.to, { x, y })) {
-              d.to.x = newX;
-              d.to.y = newY;
-            }
-          }
+			// 移動的是點位，不是連接線
+			for (const d of data) {
+				if (d.map !== currentMapKey) continue;
+				if (type === 'yellow' && isSame(d.from, { x, y })) {
+					d.from.x = newX;
+					d.from.y = newY;
+				} else if (type === 'red' && isSame(d.to, { x, y })) {
+					d.to.x = newX;
+					d.to.y = newY;
+				}
+			}
 
-          for (const obj of lineElements) {
-            updateLinePosition(obj.line, obj.from, obj.to);
-          }
-        });
+			// 更新連接線的位置
+			lineElements.forEach(obj => {
+				updateLinePosition(obj.line, obj.from, obj.to);
+			});
+		});
       }
 
       mapContainer.appendChild(p);
