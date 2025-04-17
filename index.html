@@ -263,53 +263,68 @@
     }
 
     // 主繪製函數：根據目前狀態更新畫面
-    function render() {
-      mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
-      lineElements = [];
+	function render() {
+		mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
+		lineElements = [];
 
-      if (!currentMapKey) {
-        mapImg.style.display = 'none';
-        mapHint.style.display = 'block';
-        return;
-      }
+		if (!currentMapKey) {
+			mapImg.style.display = 'none';
+			mapHint.style.display = 'block';
+			return;
+		}
 
-      mapImg.src = maps[currentMapKey]?.image || "";
-      mapImg.style.display = 'block';
-      mapHint.style.display = 'none';
+		mapImg.src = maps[currentMapKey]?.image || "";
+		mapImg.style.display = 'block';
+		mapHint.style.display = 'none';
 
-      const entries = data.filter(d => d.map === currentMapKey);
+		const entries = data.filter(d => d.map === currentMapKey);
 
-      // 使用者點擊特定點後顯示關聯
-      if (!editMode && stage === 'throw' && selectedPoint) {
-        const related = entries.filter(d => isSame(d.from, selectedPoint));
-        createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
-        for (const d of related) {
-          createPoint(d.to.x, d.to.y, 'red', { video: d.video, enableVideo: true });
-          drawLine(d.from, d.to);
-        }
-      } else if (!editMode && stage === 'blast' && selectedPoint) {
-        const related = entries.filter(d => isSame(d.to, selectedPoint));
-        createPoint(selectedPoint.x, selectedPoint.y, 'red');
-        for (const d of related) {
-          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: true });
-          drawLine(d.from, d.to);
-        }
-      } else if (!editMode && modeSelect.value === 'throw') {
-        for (const d of entries) {
-          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
-        }
-      } else if (!editMode && modeSelect.value === 'blast') {
-        for (const d of entries) {
-          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
-        }
-      } else if (editMode) {
-        for (const d of entries) {
-          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
-          createPoint(d.to.x, d.to.y, 'red', {});
-          drawLine(d.from, d.to);
-        }
-      }
-    }
+		if (!editMode && modeSelect.value === 'throw') {
+			// 1. 畫出所有投擲點
+			const drawn = new Set();
+			for (const d of entries) {
+				const key = `${d.from.x}-${d.from.y}`;
+				if (!drawn.has(key)) {
+					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+					drawn.add(key);
+				}
+			}
+
+			// 2. 如果有點某個投擲點，就畫出對應炸點與連線
+		if (selectedPoint) {
+			const related = entries.filter(d => isSame(d.from, selectedPoint));
+			for (const d of related) {
+				createPoint(d.to.x, d.to.y, 'red', { video: d.video, enableVideo: true });
+				drawLine(d.from, d.to);
+			}
+		}
+		} else if (!editMode && modeSelect.value === 'blast') {
+			// 1. 畫出所有炸點
+			const drawn = new Set();
+			for (const d of entries) {
+				const key = `${d.to.x}-${d.to.y}`;
+				if (!drawn.has(key)) {
+					createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+					drawn.add(key);
+				}
+			}
+
+		// 2. 如果有點某個炸點，就畫出對應投擲點與連線
+		  if (selectedPoint) {
+			const related = entries.filter(d => isSame(d.to, selectedPoint));
+			for (const d of related) {
+				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: true });
+				drawLine(d.from, d.to);
+			}
+		}
+		} else if (editMode) {
+			for (const d of entries) {
+				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
+				createPoint(d.to.x, d.to.y, 'red', {});
+				drawLine(d.from, d.to);
+			}
+		}
+	}
 	
 	// 顯示右鍵編輯框
 	function showEditBox(x, y, meta, type, pointX, pointY) {
