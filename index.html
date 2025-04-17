@@ -403,7 +403,12 @@
       modeSelect.disabled = !currentMapKey;
       selectedPoint = null;
       stage = null;
-      render();
+	  
+	  // 強制重新渲染，確保所有的點和連接線都能正確顯示
+		setTimeout(() => {
+			render(); // 確保渲染在DOM更新後執行
+		}, 0);
+	  
     });
 	
 	// 切換「投擲點/炸點」
