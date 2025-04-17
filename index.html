@@ -308,6 +308,65 @@
         }
       }
     }
+	
+	// 顯示右鍵編輯框
+	function showEditBox(x, y, meta, type, pointX, pointY) {
+		// 移除舊的編輯框
+		const oldBox = document.querySelector('.edit-box');
+		if (oldBox) oldBox.remove();
+
+		// 建立新的編輯框
+		const box = document.createElement('div');
+		box.className = 'edit-box';
+		box.style.left = `${x}px`;
+		box.style.top = `${y}px`;
+
+		// 找出對應的資料項目
+		const target = data.find(d =>
+			d.map === currentMapKey &&
+			((type === 'yellow' && isSame(d.from, { x: pointX, y: pointY })) ||
+			(type === 'red' && isSame(d.to, { x: pointX, y: pointY })))
+		);
+
+		// 建立輸入欄位與按鈕
+		const videoInput = document.createElement('input');
+		videoInput.placeholder = '影片連結（可空白）';
+		videoInput.value = target?.video || '';
+
+		const noteInput = document.createElement('input');
+		noteInput.placeholder = '備註內容（可空白）';
+		noteInput.value = target?.note || '';
+
+		const saveBtn = document.createElement('button');
+		saveBtn.textContent = '儲存';
+		saveBtn.onclick = () => {
+			if (target) {
+				target.video = videoInput.value.trim();
+				target.note = noteInput.value.trim();
+				render();
+				}
+			box.remove();
+		};
+
+		const deleteBtn = document.createElement('button');
+		deleteBtn.textContent = '刪除此連線';
+		deleteBtn.style.marginLeft = '10px';
+		deleteBtn.onclick = () => {
+			if (target) {
+				const idx = data.indexOf(target);
+				if (idx !== -1) data.splice(idx, 1);
+				render();
+			}
+			box.remove();
+		};
+
+		box.appendChild(videoInput);
+		box.appendChild(noteInput);
+		box.appendChild(saveBtn);
+		box.appendChild(deleteBtn);
+
+		document.body.appendChild(box);
+}
 
     // 匯出 JSON 內容
     function exportJSON() {
