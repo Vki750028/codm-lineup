@@ -396,8 +396,8 @@
       currentMapKey = e.target.value;
       modeSelect.disabled = !currentMapKey;
       selectedPoint = null;
-      stage = null;
-      render();
+      stage = modeSelect.value; //自動設定目前模式
+      render(); 
     });
 	
 	// 切換「投擲點/炸點」
