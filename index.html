@@ -264,58 +264,52 @@
 
     // 主繪製函數：根據目前狀態更新畫面
     function render() {
-		// 先移除所有的點位與線條
-		mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
-		lineElements = [];  // 清空線段的集合
+      mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
+      lineElements = [];
 
-		// 如果沒有選擇地圖，隱藏地圖顯示區域並顯示提示
-		if (!currentMapKey) {
-			mapImg.style.display = 'none';
-			mapHint.style.display = 'block';
-			return;
-		}
+      if (!currentMapKey) {
+        mapImg.style.display = 'none';
+        mapHint.style.display = 'block';
+        return;
+      }
 
-		// 顯示選擇的地圖
-		mapImg.src = maps[currentMapKey]?.image || "";
-		mapImg.style.display = 'block';
-		mapHint.style.display = 'none';
+      mapImg.src = maps[currentMapKey]?.image || "";
+      mapImg.style.display = 'block';
+      mapHint.style.display = 'none';
 
-		const entries = data.filter(d => d.map === currentMapKey);
+      const entries = data.filter(d => d.map === currentMapKey);
 
-		// 如果是編輯模式，渲染所有的點位並畫出連接線
-		if (editMode) {
-			for (const d of entries) {
-			createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
-			createPoint(d.to.x, d.to.y, 'red', {});
-			drawLine(d.from, d.to);  // 繪製連接線
-			}
-		} else {
-			// 若是瀏覽模式，根據選擇的模式顯示對應的點位和線條
-		if (stage === 'throw' && selectedPoint) {
-			const related = entries.filter(d => isSame(d.from, selectedPoint));
-			createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
-			for (const d of related) {
-				createPoint(d.to.x, d.to.y, 'red', { video: d.video });
-				drawLine(d.from, d.to);
-			}
-			} else if (stage === 'blast' && selectedPoint) {
-			const related = entries.filter(d => isSame(d.to, selectedPoint));
-			createPoint(selectedPoint.x, selectedPoint.y, 'red');
-			for (const d of related) {
-				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
-				drawLine(d.from, d.to);
-			}
-			} else if (modeSelect.value === 'throw') {
-			for (const d of entries) {
-				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
-			}
-			} else if (modeSelect.value === 'blast') {
-			for (const d of entries) {
-				createPoint(d.to.x, d.to.y, 'red', { video: d.video });
-				}
-			}
-		}
-	}
+      // 使用者點擊特定點後顯示關聯
+      if (!editMode && stage === 'throw' && selectedPoint) {
+        const related = entries.filter(d => isSame(d.from, selectedPoint));
+        createPoint(selectedPoint.x, selectedPoint.y, 'yellow');
+        for (const d of related) {
+          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+          drawLine(d.from, d.to);
+        }
+      } else if (!editMode && stage === 'blast' && selectedPoint) {
+        const related = entries.filter(d => isSame(d.to, selectedPoint));
+        createPoint(selectedPoint.x, selectedPoint.y, 'red');
+        for (const d of related) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+          drawLine(d.from, d.to);
+        }
+      } else if (!editMode && modeSelect.value === 'throw') {
+        for (const d of entries) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video });
+        }
+      } else if (!editMode && modeSelect.value === 'blast') {
+        for (const d of entries) {
+          createPoint(d.to.x, d.to.y, 'red', { video: d.video });
+        }
+      } else if (editMode) {
+        for (const d of entries) {
+          createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
+          createPoint(d.to.x, d.to.y, 'red', {});
+          drawLine(d.from, d.to);
+        }
+      }
+    }
 	
 	// 顯示右鍵編輯框
 	function showEditBox(x, y, meta, type, pointX, pointY) {
@@ -403,12 +397,7 @@
       modeSelect.disabled = !currentMapKey;
       selectedPoint = null;
       stage = null;
-	  
-	  // 強制重新渲染，確保所有的點和連接線都能正確顯示
-		setTimeout(() => {
-			render(); // 確保渲染在DOM更新後執行
-		}, 0);
-	  
+      render();
     });
 	
 	// 切換「投擲點/炸點」
