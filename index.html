@@ -140,6 +140,9 @@
     <img id="map" src="" alt="地圖圖像" />
     <div id="map-hint">請先選擇一張地圖</div>
   </div>
+  
+  <!-- ▶️ TikTok 影片播放區 -->
+  <div id="tiktok-player" style="max-width: 605px; margin: 20px auto;"></div>
 
   <!-- 🧾 JSON 輸出區 -->
   <textarea id="export-area" readonly></textarea>
@@ -185,7 +188,39 @@
       lineEl.style.width = `${length}px`;
       lineEl.style.transform = `rotate(${angle}deg)`;
     }
+	
+	function embedTikTok(videoUrl) {
+		const container = document.getElementById('tiktok-player');
+		container.innerHTML = ''; // 清空前一個
 
+		const match = videoUrl.match(/\/video\/(\d+)/);
+		if (!match || !match[1]) {
+			container.innerHTML = `<p>無法嵌入：${videoUrl}</p>`;
+			return;
+		}
+
+		const videoId = match[1];
+
+		const blockquote = document.createElement('blockquote');
+		blockquote.className = 'tiktok-embed';
+		blockquote.setAttribute('cite', videoUrl);
+		blockquote.setAttribute('data-video-id', videoId);
+		blockquote.style = "max-width: 605px; min-width: 325px;";
+		blockquote.innerHTML = '<section></section>';
+		container.appendChild(blockquote);
+
+		// 確保重新載入 embed.js（可能已經載過的話會失效）
+		const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]');
+		if (existingScript) {
+			existingScript.remove();
+		}
+
+		const script = document.createElement('script');
+		script.src = 'https://www.tiktok.com/embed.js';
+		script.async = true;
+		document.body.appendChild(script); // 放在 body 更穩
+	}
+	
     // 畫出一條連線（丟點到炸點）
     function drawLine(from, to) {
       const line = document.createElement('div');
@@ -194,6 +229,8 @@
       lineElements.push({ line, from, to });
       updateLinePosition(line, from, to);
     }
+	
+	
 
     // 建立一個點位
     function createPoint(x, y, type, meta = {}) {
@@ -206,7 +243,7 @@
       if (!editMode) {
 		if (meta.enableVideo && meta.video){
 			p.title = '點擊播放影片';
-			p.onclick= () => window.open(meta.video, '_blank');
+			p.onclick= () =>  embedTikTok(meta.video);
 		} else if (stage){
 			p.title = '點擊查看相關連線';
 			p.onclick= () =>{
