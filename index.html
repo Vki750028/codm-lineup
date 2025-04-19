@@ -121,6 +121,20 @@
 	  display: block;
 	}
 	
+	.usage-guide {
+	  background-color: #e0f7fa;
+	  padding: 15px 20px;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	  margin: 20px;
+	  font-size: 16px;
+	  color: #333;
+	}
+	.usage-guide h2 {
+	  margin-top: 0;
+	  color: #00796b;
+	}
+	
   </style>
 </head>
 <body>
@@ -152,6 +166,17 @@
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
     <div id="map-hint">請先選擇一張地圖</div>
+  </div>
+  
+  <!-- 🔰 使用說明（僅在未選擇地圖時顯示） -->
+  <div id="usage-guide" class="usage-guide">
+	<h2>🔰 使用說明</h2>
+	<ul>
+		<li>選擇地圖後，會顯示地圖圖像。</li>
+		<li>瀏覽模式下，點選投擲點或炸點可查看連線與影片。</li>
+		<li>切換至編輯模式可上傳地圖、新增點位、編輯影片與備註。</li>
+		<li>點擊匯出 JSON 可複製目前資料內容。</li>
+	</ul>
   </div>
   
   <!-- ▶️ TikTok 影片播放區 -->
@@ -349,7 +374,13 @@
 		if (!currentMapKey) {
 			mapImg.style.display = 'none';
 			mapHint.style.display = 'block';
+			
+			// ✅ 顯示使用說明
+			document.getElementById('usage-guide').style.display = 'block';
 			return;
+		} else {
+			// ✅ 隱藏使用說明
+			document.getElementById('usage-guide').style.display = 'none';
 		}
 
 		mapImg.src = maps[currentMapKey]?.image || "";
