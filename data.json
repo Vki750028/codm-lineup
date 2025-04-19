@@ -206,6 +206,84 @@
       },
       "video": "https://www.tiktok.com/@vki.07/video/7488342307138243847?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
       "note": "A點丟機頭"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.5037111087309238,
+        "y": 0.6314968462556617
+      },
+      "to": {
+        "x": 0.8431293468721914,
+        "y": 0.5450650738407928
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7490220455698189623?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "中路丟A包點"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.6914743894048165,
+        "y": 0.7255549515306661
+      },
+      "to": {
+        "x": 0.2681042998083949,
+        "y": 0.6908127685011599
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7490416641583418631?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "連接丟B包點"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.39267801487088144,
+        "y": 0.3688120477398838
+      },
+      "to": {
+        "x": 0.5650952581820041,
+        "y": 0.6916601388189528
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7490415035605437703?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "進攻方卡車丟防守方陽台"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.8684051731167539,
+        "y": 0.5764177755991277
+      },
+      "to": {
+        "x": 0.5903710844265666,
+        "y": 0.33745934598154903
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7491192921887149330?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "A點丟A大陽台窗口"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.39899697143202206,
+        "y": 0.3764383806000193
+      },
+      "to": {
+        "x": 0.6391173207553656,
+        "y": 0.6162441805353908
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7492310689277627655?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "進攻方卡車丟連接"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.4387161269591917,
+        "y": 0.38830156504911895
+      },
+      "to": {
+        "x": 0.4405215431195176,
+        "y": 0.6560705854716539
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7493281627964034322?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "進攻方中路丟狗洞斜坡"
     }
   ]
 }
