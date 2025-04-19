@@ -1,12 +1,28 @@
 {
   "maps": {
-    "standoff": {
-      "name": "Standoff",
-      "image": "public/standoffMap.jpg"
-    },
     "FiringRange": {
-      "name": "FiringRange",
+      "name": "槍火(FiringRange)",
       "image": "public/FiringRange.jpg"
+    },
+    "Raid": {
+      "name": "奢華(Raid)",
+      "image": "public/Raid.jpg"
+    },
+    "Terminal": {
+      "name": "航廈(Terminal)",
+      "image": "public/Terminal.jpg"
+    },
+    "Tunisia": {
+      "name": "突尼(Tunisia)",
+      "image": "public/Tunisia.jpg"
+    },
+    "Summit": {
+      "name": "頂峰(未出片Summit)",
+      "image": "public/Summit.jpg"
+    },
+    "standoff": {
+      "name": "邊境(Standoff)",
+      "image": "public/standoffMap.jpg"
     }
   },
   "data": [
