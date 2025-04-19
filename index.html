@@ -191,45 +191,16 @@
 	
 	function embedTikTok(videoUrl) {
 		const container = document.getElementById('tiktok-player');
-		container.innerHTML = ''; // 清空前一個內容
+		container.innerHTML = ''; // 清空前一個
 
-		// 嘗試處理短網址
-		const shortUrlMatch = videoUrl.match(/https:\/\/vt\.tiktok\.com\/([a-zA-Z0-9]+)/);
-		if (shortUrlMatch) {
-			// 這是短網址，進行重定向解析
-			fetch(videoUrl, { method: 'HEAD' })
-				.then(response => {
-					// 從 headers 中獲取重定向的 URL
-					const redirectedUrl = response.url;
-					const match = redirectedUrl.match(/\/video\/(\d+)/);
-					if (match) {
-						// 成功獲得視頻 ID
-						const videoId = match[1];
-						insertTikTokEmbed(videoId, videoUrl);
-					} else {
-						container.innerHTML = `<p>無法解析 TikTok 影片 ID。</p>`;
-					}
-				})
-				.catch(err => {
-					console.error('解析短網址失敗:', err);
-					container.innerHTML = `<p>無法嵌入 TikTok 影片：${videoUrl}</p>`;
-				});
+		const match = videoUrl.match(/\/video\/(\d+)/);
+		if (!match || !match[1]) {
+			container.innerHTML = `<p>無法嵌入：${videoUrl}</p>`;
 			return;
 		}
 
-		// 處理長網址（正常的 TikTok 影片網址）
-		const match = videoUrl.match(/\/video\/(\d+)/);
-		if (match) {
-			const videoId = match[1];
-			insertTikTokEmbed(videoId, videoUrl);
-		} else {
-			container.innerHTML = `<p>無法嵌入 TikTok 影片：${videoUrl}</p>`;
-		}
-	}
+		const videoId = match[1];
 
-	// 嵌入 TikTok 影片的方法（處理長網址與短網址）
-	function insertTikTokEmbed(videoId, videoUrl) {
-		const container = document.getElementById('tiktok-player');
 		const blockquote = document.createElement('blockquote');
 		blockquote.className = 'tiktok-embed';
 		blockquote.setAttribute('cite', videoUrl);
@@ -238,7 +209,7 @@
 		blockquote.innerHTML = '<section></section>';
 		container.appendChild(blockquote);
 
-		// 重新載入 TikTok 的嵌入腳本
+		// 確保重新載入 embed.js（可能已經載過的話會失效）
 		const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]');
 		if (existingScript) {
 			existingScript.remove();
