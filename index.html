@@ -158,6 +158,7 @@
     let selectedPoint = null;  // 使用者選取的點
     let stage = null;          // 目前顯示階段（throw / blast）
     let lineElements = [];     // 繪製的線段 DOM 物件集合
+	let pendingFrom = null;
 
     // 快捷參考 DOM 元素
     const mapSelect = document.getElementById('map-select');
@@ -524,10 +525,10 @@
       });
 	
 	// 在編輯模式下，點擊地圖新增一組點位
-	mapImg.addEventListener('click', e => {
+	mapContainer.addEventListener('click', e => {
 		if (!editMode) return;
 
-		const rect = mapImg.getBoundingClientRect();
+		const rect = mapContainer.getBoundingClientRect();
 		const x = (e.clientX - rect.left) / rect.width;
 		const y = (e.clientY - rect.top) / rect.height;
 
