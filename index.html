@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CODM 手雷地圖 - 使用者模式</title>
+  <title>CODM手雷地圖(Grenade Spots)</title>
 
   <!-- 🔧 頁面樣式設定 -->
   <style>
@@ -141,41 +141,48 @@
 
   <!-- 🔘 功能列：選地圖、模式切換、上傳、匯出 -->
   <div class="controls">
-    <label>選擇地圖：
+    <label>選擇地圖(Maps)：
       <select id="map-select">
-        <option value="" selected>請選擇地圖</option>
+        <option value="" selected>選擇地圖(Map)</option>
       </select>
     </label>
     <label>顯示模式：
       <select id="mode-select" disabled>
-        <option value="throw">投擲點 → 顯示對應炸點</option>
-        <option value="blast">炸點 → 顯示對應投擲點</option>
+        <option value="throw">投擲點(Throw point)</option>
+        <option value="blast">炸點(Explosion location)</option>
       </select>
     </label>
     <label class="edit-only">
-      上傳地圖：<input type="file" id="upload-map" accept="image/*">
+      Upload Map：<input type="file" id="upload-map" accept="image/*">
     </label>
-    <button class="edit-only" onclick="exportJSON()">複製 JSON</button>
-    <button id="mode-toggle">切換為編輯模式</button>
+    <button class="edit-only" onclick="exportJSON()">Copy JSON</button>
+    <button id="mode-toggle">切換為編輯(Edit)</button>
   </div>
 
   <!-- 🔄 狀態列 -->
-  <div id="status">目前狀態：瀏覽模式</div>
+  <div id="status">目前狀態：瀏覽模式(Browse Mode)</div>
 
   <!-- 🗺️ 地圖顯示區塊 -->
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
-    <div id="map-hint">請先選擇一張地圖</div>
+    <div id="map-hint">請先選擇一張地圖(Please select a map first.)</div>
   </div>
   
   <!-- 🔰 使用說明（僅在未選擇地圖時顯示） -->
   <div id="usage-guide" class="usage-guide">
-	<h2>🔰 使用說明</h2>
+	<h2>🔰 使用說明 User Guide</h2>
 	<ul>
-		<li>選擇地圖後，會顯示地圖圖像。</li>
-		<li>瀏覽模式下，點選投擲點或炸點可查看連線與影片。</li>
 		<li>黃色:手雷投擲點；紅色:炸的位置。</li>
+		<li>選擇地圖後，可選擇看投擲點或炸點。</li>
+		<li>點地圖上投擲點或炸點可查看對應的點。</li>
+		<li>點對應的點可以在下方看到雷點影片。</li>
 		<li>編輯模式對您們沒有用處，不用點進去!</li>
+		<br />
+		<li>Yellow: Grenade throw point; Red: Explosion location.</li>
+		<li>After selecting the map, you can choose to view either the throw points or the explosion points.</li>
+		<li>Click on a throw point or explosion point on the map to see the corresponding spot.</li>
+		<li>Clicking on a corresponding point will display the grenade video below.</li>
+		<li>The edit mode isn't useful for you, so there's no need to click into it!</li>
 	</ul>
   </div>
   
@@ -208,8 +215,8 @@
 
     // 更新模式狀態顯示
     function updateStatus() {
-      status.textContent = `目前狀態：${editMode ? '編輯模式' : '瀏覽模式'}`;
-      modeToggle.textContent = editMode ? '切換為瀏覽模式' : '切換為編輯模式';
+      status.textContent = `目前狀態：${editMode ? '編輯模式(Edit Mode)' : '瀏覽模式(Browse Mode)'}`;
+      modeToggle.textContent = editMode ? '切換為瀏覽(Browse)' : '切換為編輯(Edit)';
 	  
 	  // 👉 控制 body class
 	  document.body.classList.toggle('edit-mode', editMode);
@@ -522,7 +529,7 @@
 
     // 根據 maps 資料動態產生選單
     function renderMapOptions() {
-      mapSelect.innerHTML = "<option value='' selected>請選擇地圖</option>";
+      mapSelect.innerHTML = "<option value='' selected>選擇地圖(Map)</option>";
       for (let key in maps) {
         const opt = document.createElement("option");
         opt.value = key;
@@ -554,6 +561,12 @@
 	// 🔧 新增：切換編輯模式按鈕功能
 	modeToggle.addEventListener('click', () => {
 		editMode = !editMode;           // 編輯模式開關切換
+		
+		if (editMode) {
+		// 👉 自動跳轉到指定 TikTok 影片頁面
+			window.location.href = 'https://www.tiktok.com/@vki.07?referer_url=codm-lineup.vercel.app%2F&refer=embed&embed_source=121374463%2C121468991%2C121439635%2C121433650%2C121404359%2C121497414%2C121477481%2C121351166%2C121487028%2C73347566%2C121331973%2C120811592%2C120810756%2C121503376%3Bnull%3Bembed_head&referer_video_id=7489289633138887944';
+		}
+		
 		selectedPoint = null;           // 清除選取點
 		stage = null;                   // 清除階段
 		modeSelect.disabled = editMode; // 編輯模式時停用顯示模式選單
