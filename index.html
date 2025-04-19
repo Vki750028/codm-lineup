@@ -526,6 +526,10 @@
       modeSelect.disabled = !currentMapKey;
       selectedPoint = null;
       stage = modeSelect.value; //自動設定目前模式
+	  
+	  // ✅ 清除 TikTok 播放器
+	  document.getElementById('tiktok-player').innerHTML = '';
+	  
       render(); 
     });
 	
