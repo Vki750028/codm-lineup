@@ -108,6 +108,7 @@
     .edit-box button {
       margin-top: 5px;
     }
+
   </style>
 </head>
 <body>
@@ -189,36 +190,44 @@
       lineEl.style.transform = `rotate(${angle}deg)`;
     }
 	
-	function embedTikTok(videoUrl) {
+	async function embedTikTok(videoUrl) {
 		const container = document.getElementById('tiktok-player');
 		container.innerHTML = ''; // 清空前一個
 
-		const match = videoUrl.match(/\/video\/(\d+)/);
-		if (!match || !match[1]) {
-			container.innerHTML = `<p>無法嵌入：${videoUrl}</p>`;
-			return;
+		try {
+			// 若是短網址 vm.tiktok.com，自動展開
+			if (videoUrl.includes('vm.tiktok.com')) {
+				const response = await fetch(videoUrl, { method: 'HEAD', redirect: 'follow' });
+				videoUrl = response.url; // 取得重導後的正式網址
+			}
+
+			const match = videoUrl.match(/\/video\/(\d+)/);
+			if (!match || !match[1]) {
+				container.innerHTML = `<p>無法嵌入：${videoUrl}</p>`;
+				return;
+			}
+
+			const videoId = match[1];
+
+			const blockquote = document.createElement('blockquote');
+			blockquote.className = 'tiktok-embed';
+			blockquote.setAttribute('cite', videoUrl);
+			blockquote.setAttribute('data-video-id', videoId);
+			blockquote.style = "max-width: 605px; min-width: 325px;";
+			blockquote.innerHTML = '<section></section>';
+			container.appendChild(blockquote);
+
+			const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]');
+			if (existingScript) existingScript.remove();
+
+			const script = document.createElement('script');
+			script.src = 'https://www.tiktok.com/embed.js';
+			script.async = true;
+			document.body.appendChild(script);
+		} catch (err) {
+			container.innerHTML = `<p>載入影片失敗：${videoUrl}</p>`;
+			console.error('嵌入 TikTok 失敗：', err);
 		}
-
-		const videoId = match[1];
-
-		const blockquote = document.createElement('blockquote');
-		blockquote.className = 'tiktok-embed';
-		blockquote.setAttribute('cite', videoUrl);
-		blockquote.setAttribute('data-video-id', videoId);
-		blockquote.style = "max-width: 605px; min-width: 325px;";
-		blockquote.innerHTML = '<section></section>';
-		container.appendChild(blockquote);
-
-		// 確保重新載入 embed.js（可能已經載過的話會失效）
-		const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]');
-		if (existingScript) {
-			existingScript.remove();
-		}
-
-		const script = document.createElement('script');
-		script.src = 'https://www.tiktok.com/embed.js';
-		script.async = true;
-		document.body.appendChild(script); // 放在 body 更穩
 	}
 	
     // 畫出一條連線（丟點到炸點）
