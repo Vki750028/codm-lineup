@@ -128,6 +128,58 @@
       },
       "video": "https://www.tiktok.com/@vki.07/video/7492464798026894610?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
       "note": "木板房後方丟A包油桶位(靠中路)"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.7943831105433924,
+        "y": 0.3593373989059303
+      },
+      "to": {
+        "x": 0.7727181166194816,
+        "y": 0.7644609621134035
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7489289633138887944?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "防守方家丟A包點"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.4567702885624506,
+        "y": 0.6522101007712825
+      },
+      "to": {
+        "x": 0.7979939428640441,
+        "y": 0.7358880155899545
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7489291327318887687?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "水池(側梯旁)丟A包點"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.7943831105433924,
+        "y": 0.44811762560378965
+      },
+      "to": {
+        "x": 0.5145436056928792,
+        "y": 0.17871555838269917
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7489295564610260231?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "防守方家丟B包點"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.5091273572119015,
+        "y": 0.6134325304894588
+      },
+      "to": {
+        "x": 0.5190571460936939,
+        "y": 0.20014526827528592
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7489300220526857490?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "側梯丟B包點"
     }
   ]
 }
