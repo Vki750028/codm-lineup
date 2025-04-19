@@ -180,6 +180,32 @@
       },
       "video": "https://www.tiktok.com/@vki.07/video/7489300220526857490?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
       "note": "側梯丟B包點"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.7591774954170375,
+        "y": 0.5869352511426621
+      },
+      "to": {
+        "x": 0.6589768985189505,
+        "y": 0.39597099579837786
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7488261364486524178?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "禮品店外丟機頭"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.3863590583097408,
+        "y": 0.4364295244730143
+      },
+      "to": {
+        "x": 0.6562687742784616,
+        "y": 0.4024443603863197
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7488342307138243847?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "A點丟機頭"
     }
   ]
 }
