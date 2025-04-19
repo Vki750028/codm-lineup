@@ -263,6 +263,11 @@
       p.className = `point ${type}`;
       p.style.left = `${x * 100}%`;
       p.style.top = `${y * 100}%`;
+	  
+	  // 當新增點位時，讓它閃爍
+	  if (type === 'yellow' && !editMode) {
+		p.style.animation = 'blink 1s infinite';
+	  }
 
       // 使用者模式點擊可播放影片
       if (!editMode) {
@@ -321,6 +326,17 @@
 
       mapContainer.appendChild(p);
     }
+	
+	// 定義閃爍動畫
+	const style = document.createElement('style');
+	style.innerHTML = `
+	  @keyframes blink {
+		0% { background-color: yellow; }
+		50% { background-color: red; }
+		100% { background-color: yellow; }
+	}
+	`;
+	document.head.appendChild(style);
 
     // 判斷兩點是否幾乎相同
     function isSame(p1, p2) {
@@ -547,16 +563,36 @@
 		const x = (e.clientX - rect.left) / rect.width;
 		const y = (e.clientY - rect.top) / rect.height;
 
-		if (!pendingFrom) {
-			// 第一次點 → 記錄投擲點
-			pendingFrom = { x, y };
-			alert("請點選炸點位置");
-		} else {
-			// 第二次點 → 記錄炸點，然後跳出新增資料表單
+		// 如果使用者點到的是既有黃點，就當作 from（投擲點）
+		const allPoints = Array.from(mapContainer.querySelectorAll('.point.yellow'));
+		const clicked = allPoints.find(p => {
+			const px = parseFloat(p.style.left) / 100;
+			const py = parseFloat(p.style.top) / 100;
+			return Math.abs(px - x) < 0.01 && Math.abs(py - y) < 0.01;
+		});
+
+		if (clicked) {
+			const px = parseFloat(clicked.style.left) / 100;
+			const py = parseFloat(clicked.style.top) / 100;
+
+			if (pendingFrom && Math.abs(pendingFrom.x - px) < 0.001 && Math.abs(pendingFrom.y - py) < 0.001) {
+			  pendingFrom = null;
+			  alert('已取消選取的投擲點');
+			} else {
+			  pendingFrom = { x: px, y: py };
+			  alert('已選取投擲點，請點選炸點位置');
+			}
+			return;
+		}
+
+		// 如果已經選了 from，那這次點就是 to
+		if (pendingFrom) {
 			const from = pendingFrom;
 			const to = { x, y };
-			pendingFrom = null; // 重置狀態
+			pendingFrom = null;
 			showNewPointForm(e.pageX, e.pageY, from, to);
+		} else {
+			alert('請先點選一個黃點作為投擲點');
 		}
 	});
 
