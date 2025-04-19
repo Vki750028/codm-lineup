@@ -47,6 +47,19 @@
         "y": 0.8152275665314492
       },
       "video": "https://www.tiktok.com/@vki.07/video/7491632355862514952?is_from_webapp=1&sender_device=pc"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.7763289869608826,
+        "y": 0.4967606647679259
+      },
+      "to": {
+        "x": 0.4152457372116349,
+        "y": 0.5368220087008231
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7488698721698417928?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "防守方家炸板二"
     }
   ]
 }
