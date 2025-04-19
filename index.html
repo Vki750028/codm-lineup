@@ -222,8 +222,15 @@
       const y1 = from.y * mapRect.height;
       const x2 = to.x * mapRect.width;
       const y2 = to.y * mapRect.height;
-      const length = Math.hypot(x2 - x1, y2 - y1);
-      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+	  
+	  // 計算兩點的中心點
+	  const centerX1 = x1 + 6; // 半徑 12px (點的直徑)
+	  const centerY1 = y1 + 6;
+	  const centerX2 = x2 + 6;
+	  const centerY2 = y2 + 6;
+	  
+      const length = Math.hypot(centerX2 - centerX1, centerY2 - centerY1);
+      const angle = Math.atan2(centerY2 - centerY1, centerX2 - centerX1) * 180 / Math.PI;
 
       lineEl.style.left = `${x1}px`;
       lineEl.style.top = `${y1}px`;
@@ -385,6 +392,11 @@
 		} else {
 			// ✅ 隱藏使用說明
 			document.getElementById('usage-guide').style.display = 'none';
+		}
+		
+		// 若為編輯模式，隱藏 TikTok 影片
+		if (editMode) {
+		 document.getElementById('tiktok-player').innerHTML = '';
 		}
 
 		mapImg.src = maps[currentMapKey]?.image || "";
