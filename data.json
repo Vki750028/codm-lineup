@@ -60,6 +60,58 @@
       },
       "video": "https://www.tiktok.com/@vki.07/video/7488698721698417928?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
       "note": "防守方家炸板二"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.4082246740220662,
+        "y": 0.5808894870270102
+      },
+      "to": {
+        "x": 0.559679037111334,
+        "y": 0.17126224531313575
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7488923850734865671?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "板二炸B道轉角木箱"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.24172517552657974,
+        "y": 0.5348189415041783
+      },
+      "to": {
+        "x": 0.6559679037111334,
+        "y": 0.5648649494538512
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7488780914034543890?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "進攻方家丟鐵皮2樓"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.27883650952858574,
+        "y": 0.48974992957966884
+      },
+      "to": {
+        "x": 0.6629889669007021,
+        "y": 0.48974992957966884
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7489884610885651719?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "進攻方家丟鐵皮2樓(左側窗口)."
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.40722166499498497,
+        "y": 0.4376701824669024
+      },
+      "to": {
+        "x": 0.7402206619859579,
+        "y": 0.6770367124659635
+      },
+      "video": "https://www.tiktok.com/@vki.07/video/7492464798026894610?is_from_webapp=1&sender_device=pc&web_id=7494275665610409479",
+      "note": "木板房後方丟A包油桶位(靠中路)"
     }
   ]
 }
