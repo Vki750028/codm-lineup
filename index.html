@@ -141,48 +141,41 @@
 
   <!-- 🔘 功能列：選地圖、模式切換、上傳、匯出 -->
   <div class="controls">
-    <label>選擇地圖(Maps)：
+    <label>選擇地圖：
       <select id="map-select">
-        <option value="" selected>選擇地圖(Map)</option>
+        <option value="" selected>請選擇地圖</option>
       </select>
     </label>
     <label>顯示模式：
       <select id="mode-select" disabled>
-        <option value="throw">投擲點(Throw point)</option>
-        <option value="blast">炸點(Explosion location)</option>
+        <option value="throw">投擲點 → 顯示對應炸點</option>
+        <option value="blast">炸點 → 顯示對應投擲點</option>
       </select>
     </label>
     <label class="edit-only">
-      Upload Map：<input type="file" id="upload-map" accept="image/*">
+      上傳地圖：<input type="file" id="upload-map" accept="image/*">
     </label>
-    <button class="edit-only" onclick="exportJSON()">Copy JSON</button>
-    <button id="mode-toggle">切換為編輯(Edit)</button>
+    <button class="edit-only" onclick="exportJSON()">複製 JSON</button>
+    <button id="mode-toggle">切換為編輯模式</button>
   </div>
 
   <!-- 🔄 狀態列 -->
-  <div id="status">目前狀態：瀏覽模式(Browse Mode)</div>
+  <div id="status">目前狀態：瀏覽模式</div>
 
   <!-- 🗺️ 地圖顯示區塊 -->
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
-    <div id="map-hint">請先選擇一張地圖(Please select a map first.)</div>
+    <div id="map-hint">請先選擇一張地圖</div>
   </div>
   
   <!-- 🔰 使用說明（僅在未選擇地圖時顯示） -->
   <div id="usage-guide" class="usage-guide">
-	<h2>🔰 使用說明 User Guide</h2>
+	<h2>🔰 使用說明</h2>
 	<ul>
+		<li>選擇地圖後，會顯示地圖圖像。</li>
+		<li>瀏覽模式下，點選投擲點或炸點可查看連線與影片。</li>
 		<li>黃色:手雷投擲點；紅色:炸的位置。</li>
-		<li>選擇地圖後，可選擇看投擲點或炸點。</li>
-		<li>點地圖上投擲點或炸點可查看對應的點。</li>
-		<li>點對應的點可以在下方看到雷點影片。</li>
 		<li>編輯模式對您們沒有用處，不用點進去!</li>
-		<br />
-		<li>Yellow: Grenade throw point; Red: Explosion location.</li>
-		<li>After selecting the map, you can choose to view either the throw points or the explosion points.</li>
-		<li>Click on a throw point or explosion point on the map to see the corresponding spot.</li>
-		<li>Clicking on a corresponding point will display the grenade video below.</li>
-		<li>The edit mode isn't useful for you, so there's no need to click into it!</li>
 	</ul>
   </div>
   
@@ -215,8 +208,8 @@
 
     // 更新模式狀態顯示
     function updateStatus() {
-      status.textContent = `目前狀態：${editMode ? '編輯模式(Edit Mode)' : '瀏覽模式(Browse Mode)'}`;
-      modeToggle.textContent = editMode ? '切換為瀏覽(Browse)' : '切換為編輯(Edit)';
+      status.textContent = `目前狀態：${editMode ? '編輯模式' : '瀏覽模式'}`;
+      modeToggle.textContent = editMode ? '切換為瀏覽模式' : '切換為編輯模式';
 	  
 	  // 👉 控制 body class
 	  document.body.classList.toggle('edit-mode', editMode);
@@ -225,15 +218,19 @@
     // 根據兩點座標更新連線位置
     function updateLinePosition(lineEl, from, to) {
       const mapRect = mapImg.getBoundingClientRect();
-	  const radius = 6; // 中心用
+      const x1 = from.x * mapRect.width;
+      const y1 = from.y * mapRect.height;
+      const x2 = to.x * mapRect.width;
+      const y2 = to.y * mapRect.height;
 	  
-      const x1 = from.x * mapRect.width + radius;
-      const y1 = from.y * mapRect.height + radius;
-      const x2 = to.x * mapRect.width + radius;
-      const y2 = to.y * mapRect.height + radius;
+	  // 計算兩點的中心點
+	  const centerX1 = x1 + 6; // 半徑 12px (點的直徑)
+	  const centerY1 = y1 + 6;
+	  const centerX2 = x2 + 6;
+	  const centerY2 = y2 + 6;
 	  
-      const length = Math.hypot(x2 - x1, y2 - y1);
-      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      const length = Math.hypot(centerX2 - centerX1, centerY2 - centerY1);
+      const angle = Math.atan2(centerY2 - centerY1, centerX2 - centerX1) * 180 / Math.PI;
 
       lineEl.style.left = `${x1}px`;
       lineEl.style.top = `${y1}px`;
@@ -304,15 +301,15 @@
 		if (meta.enableVideo && meta.video){
 			p.title = '點擊播放影片';
 			p.onclick= () =>  embedTikTok(meta.video);
-		} else {
+		} else if (stage){
 			p.title = '點擊查看相關連線';
-			p.onclick = () => {
-			// 使用 meta.ref（指向原始 d.from），避免浮點誤差
-			  if (!isSame(selectedPoint || {}, meta.ref)) {
-			   selectedPoint = meta.ref;
-			   render();
-			  }
-			};
+			p.onclick= () =>{
+			// ❗ 若點到的是目前已選的點，就不重繪
+				if (!isSame(selectedPoint || {}, { x, y })) {
+					selectedPoint = {x, y};
+					render();
+				}
+		    };
 		}
 	  }
 
@@ -378,11 +375,6 @@
 
     // 主繪製函數：根據目前狀態更新畫面
 	function render() {
-		// ✅ 確保非編輯模式下一定有 stage（顯示模式）
-		if (!editMode && !stage) {
-			stage = modeSelect.value;
-		}
-		
 		mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
 		lineElements = [];
 
@@ -419,7 +411,7 @@
 			for (const d of entries) {
 				const key = `${d.from.x}-${d.from.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: false, ref: d.from // ⭐ 傳入參考點，避免浮點誤差}); // ❗這行讓它仍然可點擊，只是不會開影片
+					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: false}); // ❗這行讓它仍然可點擊，只是不會開影片
 					drawn.add(key);
 				}
 			}
@@ -438,7 +430,7 @@
 			for (const d of entries) {
 				const key = `${d.to.x}-${d.to.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.to.x, d.to.y, 'red', {ref: d.to});
+					createPoint(d.to.x, d.to.y, 'red', {});
 					drawn.add(key);
 				}
 			}
@@ -531,7 +523,7 @@
 
     // 根據 maps 資料動態產生選單
     function renderMapOptions() {
-      mapSelect.innerHTML = "<option value='' selected>選擇地圖(Map)</option>";
+      mapSelect.innerHTML = "<option value='' selected>請選擇地圖</option>";
       for (let key in maps) {
         const opt = document.createElement("option");
         opt.value = key;
@@ -550,15 +542,7 @@
 	  // ✅ 清除 TikTok 播放器
 	  document.getElementById('tiktok-player').innerHTML = '';
 	  
-	  // 等圖片載入完再 render()
-	  if (maps[currentMapKey]?.image) {
-		mapImg.onload = () => {
-			render();
-		};
-		mapImg.src = maps[currentMapKey].image;
-	  } else {
-		render(); // fallback
-	  } 
+      render(); 
     });
 	
 	// 切換「投擲點/炸點」
