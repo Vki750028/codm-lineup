@@ -108,7 +108,19 @@
     .edit-box button {
       margin-top: 5px;
     }
-
+	
+	.edit-only {
+	  display: none;
+	}
+	body.edit-mode .edit-only {
+	  display: inline-block;
+	}
+	
+	/* 對 textarea 額外處理，顯示成 block（讓它寬度撐滿、分行）*/
+	body.edit-mode .edit-only#export-area {
+	  display: block;
+	}
+	
   </style>
 </head>
 <body>
@@ -126,10 +138,10 @@
         <option value="blast">炸點 → 顯示對應投擲點</option>
       </select>
     </label>
-    <label>
+    <label class="edit-only">
       上傳地圖：<input type="file" id="upload-map" accept="image/*">
     </label>
-    <button onclick="exportJSON()">複製 JSON</button>
+    <button class="edit-only" onclick="exportJSON()">複製 JSON</button>
     <button id="mode-toggle">切換為編輯模式</button>
   </div>
 
@@ -146,7 +158,7 @@
   <div id="tiktok-player" style="max-width: 605px; margin: 20px auto;"></div>
 
   <!-- 🧾 JSON 輸出區 -->
-  <textarea id="export-area" readonly></textarea>
+  <textarea id="export-area" class="edit-only" readonly></textarea>
 
   <!-- 🧠 主程式邏輯區（JavaScript） -->
   <script>
@@ -173,6 +185,9 @@
     function updateStatus() {
       status.textContent = `目前狀態：${editMode ? '編輯模式' : '瀏覽模式'}`;
       modeToggle.textContent = editMode ? '切換為瀏覽模式' : '切換為編輯模式';
+	  
+	  // 👉 控制 body class
+	  document.body.classList.toggle('edit-mode', editMode);
     }
 
     // 根據兩點座標更新連線位置
