@@ -522,6 +522,68 @@
         renderMapOptions();
         render();
       });
+	
+	// 在編輯模式下，點擊地圖新增一組點位
+	mapImg.addEventListener('click', e => {
+		if (!editMode) return;
+
+		const rect = mapImg.getBoundingClientRect();
+		const x = (e.clientX - rect.left) / rect.width;
+		const y = (e.clientY - rect.top) / rect.height;
+
+		if (!pendingFrom) {
+			// 第一次點 → 記錄投擲點
+			pendingFrom = { x, y };
+			alert("請點選炸點位置");
+		} else {
+			// 第二次點 → 記錄炸點，然後跳出新增資料表單
+			const from = pendingFrom;
+			const to = { x, y };
+			pendingFrom = null; // 重置狀態
+			showNewPointForm(e.pageX, e.pageY, from, to);
+		}
+	});
+
+	function showNewPointForm(screenX, screenY, from, to) {
+		const oldBox = document.querySelector('.edit-box');
+		if (oldBox) oldBox.remove();
+
+		const box = document.createElement('div');
+		box.className = 'edit-box';
+		box.style.left = `${screenX}px`;
+		box.style.top = `${screenY}px`;
+
+		const videoInput = document.createElement('input');
+		videoInput.placeholder = '影片連結';
+		videoInput.value = '';
+
+		const noteInput = document.createElement('input');
+		noteInput.placeholder = '備註內容';
+		noteInput.value = '';
+
+		const addBtn = document.createElement('button');
+		addBtn.textContent = '新增點位';
+		addBtn.onclick = () => {
+		  data.push({
+			map: currentMapKey,
+			from,
+			to,
+			video: videoInput.value.trim(),
+			note: noteInput.value.trim()
+		  });
+
+		render();
+		box.remove();
+		};
+
+		box.appendChild(videoInput);
+		box.appendChild(noteInput);
+		box.appendChild(addBtn);
+
+		document.body.appendChild(box);
+	}
+
+	
   </script>
 </body>
 </html>
