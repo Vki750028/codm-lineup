@@ -156,7 +156,7 @@
       Upload Map：<input type="file" id="upload-map" accept="image/*">
     </label>
     <button class="edit-only" onclick="exportJSON()">Copy JSON</button>
-    <button id="mode-toggle">切換為編輯模式(Edit)</button>
+    <button id="mode-toggle">切換為編輯(Edit)</button>
   </div>
 
   <!-- 🔄 狀態列 -->
@@ -165,7 +165,7 @@
   <!-- 🗺️ 地圖顯示區塊 -->
   <div id="map-container">
     <img id="map" src="" alt="地圖圖像" />
-    <div id="map-hint">請先選擇一張地圖</div>
+    <div id="map-hint">請先選擇一張地圖(Please select a map first.)</div>
   </div>
   
   <!-- 🔰 使用說明（僅在未選擇地圖時顯示） -->
@@ -378,6 +378,11 @@
 
     // 主繪製函數：根據目前狀態更新畫面
 	function render() {
+		// ✅ 確保非編輯模式下一定有 stage（顯示模式）
+		if (!editMode && !stage) {
+			stage = modeSelect.value;
+		}
+		
 		mapContainer.querySelectorAll('.point, .line').forEach(el => el.remove());
 		lineElements = [];
 
@@ -526,7 +531,7 @@
 
     // 根據 maps 資料動態產生選單
     function renderMapOptions() {
-      mapSelect.innerHTML = "<option value='' selected>請選擇地圖</option>";
+      mapSelect.innerHTML = "<option value='' selected>選擇地圖(Map)</option>";
       for (let key in maps) {
         const opt = document.createElement("option");
         opt.value = key;
