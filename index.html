@@ -306,13 +306,13 @@
 			p.onclick= () =>  embedTikTok(meta.video);
 		} else {
 			p.title = '點擊查看相關連線';
-			p.onclick= () =>{
-			// ❗ 若點到的是目前已選的點，就不重繪
-				if (!isSame(selectedPoint || {}, { x, y })) {
-					selectedPoint = {x, y};
-					render();
-				}
-		    };
+			p.onclick = () => {
+			// 使用 meta.ref（指向原始 d.from），避免浮點誤差
+			  if (!isSame(selectedPoint || {}, meta.ref)) {
+			   selectedPoint = meta.ref;
+			   render();
+			  }
+			};
 		}
 	  }
 
@@ -419,7 +419,7 @@
 			for (const d of entries) {
 				const key = `${d.from.x}-${d.from.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: false}); // ❗這行讓它仍然可點擊，只是不會開影片
+					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: false, ref: d.from // ⭐ 傳入參考點，避免浮點誤差}); // ❗這行讓它仍然可點擊，只是不會開影片
 					drawn.add(key);
 				}
 			}
@@ -438,7 +438,7 @@
 			for (const d of entries) {
 				const key = `${d.to.x}-${d.to.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.to.x, d.to.y, 'red', {});
+					createPoint(d.to.x, d.to.y, 'red', {ref: d.to});
 					drawn.add(key);
 				}
 			}
