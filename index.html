@@ -218,6 +218,8 @@
     // 根據兩點座標更新連線位置
     function updateLinePosition(lineEl, from, to) {
       const mapRect = mapImg.getBoundingClientRect();
+	  
+	  // 取得點的中心位置 (x 和 y 是 [0, 1] 區間的比例)
       const x1 = from.x * mapRect.width;
       const y1 = from.y * mapRect.height;
       const x2 = to.x * mapRect.width;
@@ -226,10 +228,13 @@
       const length = Math.hypot(x2 - x1, y2 - y1);
       const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
 
-      lineEl.style.left = `${x1}px`;
-      lineEl.style.top = `${y1}px`;
-      lineEl.style.width = `${length}px`;
-      lineEl.style.transform = `rotate(${angle}deg)`;
+      // 設置線條的位置和旋轉角度
+	  lineEl.style.position = 'absolute';  // 確保 lineEl 有正確的定位屬性
+	  lineEl.style.left = `${x1}px`;  // 線條起點位置 (點的中心)
+	  lineEl.style.top = `${y1}px`;  // 線條起點位置 (點的中心)
+	  lineEl.style.width = `${length}px`;  // 設置線條長度
+	  lineEl.style.transformOrigin = '0 50%';  // 從線條起點旋轉
+	  lineEl.style.transform = `rotate(${angle}deg)`;  // 設置旋轉角度
     }
 	
 	async function embedTikTok(videoUrl) {
