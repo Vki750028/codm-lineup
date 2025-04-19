@@ -304,7 +304,7 @@
 		if (meta.enableVideo && meta.video){
 			p.title = '點擊播放影片';
 			p.onclick= () =>  embedTikTok(meta.video);
-		} else if (stage){
+		} else {
 			p.title = '點擊查看相關連線';
 			p.onclick= () =>{
 			// ❗ 若點到的是目前已選的點，就不重繪
