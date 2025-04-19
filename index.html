@@ -218,19 +218,15 @@
     // 根據兩點座標更新連線位置
     function updateLinePosition(lineEl, from, to) {
       const mapRect = mapImg.getBoundingClientRect();
-      const x1 = from.x * mapRect.width;
-      const y1 = from.y * mapRect.height;
-      const x2 = to.x * mapRect.width;
-      const y2 = to.y * mapRect.height;
+	  const radius = 6; // 中心用
 	  
-	  // 計算兩點的中心點
-	  const centerX1 = x1 + 6; // 半徑 12px (點的直徑)
-	  const centerY1 = y1 + 6;
-	  const centerX2 = x2 + 6;
-	  const centerY2 = y2 + 6;
+      const x1 = from.x * mapRect.width + radius;
+      const y1 = from.y * mapRect.height + radius;
+      const x2 = to.x * mapRect.width + radius;
+      const y2 = to.y * mapRect.height + radius;
 	  
-      const length = Math.hypot(centerX2 - centerX1, centerY2 - centerY1);
-      const angle = Math.atan2(centerY2 - centerY1, centerX2 - centerX1) * 180 / Math.PI;
+      const length = Math.hypot(x2 - x1, y2 - y1);
+      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
 
       lineEl.style.left = `${x1}px`;
       lineEl.style.top = `${y1}px`;
