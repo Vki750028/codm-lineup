@@ -152,6 +152,14 @@
         <option value="blast">炸點(Explosion location)</option>
       </select>
     </label>
+	
+	<!-- 選平台的地方 -->
+	<label for="platform-select">YT / TikTok：</label>
+	<select id="platform-select">
+		<option value="yt" selected>YouTube</option>
+		<option value="tiktok">TikTok</option>
+	</select>
+	
     <label class="edit-only">
       Upload Map：<input type="file" id="upload-map" accept="image/*">
     </label>
@@ -209,10 +217,12 @@
     let stage = null;          // 目前顯示階段（throw / blast）
     let lineElements = [];     // 繪製的線段 DOM 物件集合
 	let pendingFrom = null;
+	let currentPlatform = 'yt';
 
     // 快捷參考 DOM 元素
     const mapSelect = document.getElementById('map-select');
     const modeSelect = document.getElementById('mode-select');
+	const platformSelect = document.getElementById('platform-select');
     const mapImg = document.getElementById('map');
     const mapHint = document.getElementById('map-hint');
     const mapContainer = document.getElementById('map-container');
@@ -290,6 +300,35 @@
 		}
 	}
 	
+	function embedYouTube(videoUrl) {
+		const container = document.getElementById('tiktok-player');
+		container.innerHTML = ''; // 清空
+
+		const videoId = getYouTubeVideoId(videoUrl);
+		if (!videoId) {
+			container.innerHTML = `<p>無法嵌入：${videoUrl}</p>`;
+			return;
+		}
+
+		const iframe = document.createElement('iframe');
+		iframe.width = "560";
+		iframe.height = "315";
+		iframe.src = `https://www.youtube.com/embed/${videoId}`;
+		iframe.title = "YouTube video player";
+		iframe.frameBorder = "0";
+		iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+		iframe.allowFullscreen = true;
+  
+		container.appendChild(iframe);
+	}
+
+	// 輔助：從網址中擷取 YouTube 的 ID
+	function getYouTubeVideoId(url) {
+		const regExp = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+		const match = url.match(regExp);
+		return match ? match[1] : null;
+	}
+	
     // 畫出一條連線（丟點到炸點）
     function drawLine(from, to) {
       const line = document.createElement('div');
@@ -310,9 +349,19 @@
 
       // 使用者模式點擊可播放影片
       if (!editMode) {
-		if (meta.enableVideo && meta.video){
+		if (meta.enableVideo) {
 			p.title = '點擊播放影片';
-			p.onclick= () =>  embedTikTok(meta.video);
+			p.onclick = () => {
+				if (currentPlatform === 'yt' && meta.videoYT) {
+					embedYouTube(meta.videoYT);
+				} else if (currentPlatform === 'tiktok' && meta.videoTikTok) {
+					embedTikTok(meta.videoTikTok);
+				} else if (meta.videoYT) {
+					embedYouTube(meta.videoYT);
+				} else if (meta.videoTikTok) {
+					embedTikTok(meta.videoTikTok);
+				}
+			};
 		} else if (stage){
 			p.title = '點擊查看相關連線';
 			p.onclick= () =>{
@@ -423,7 +472,10 @@
 			for (const d of entries) {
 				const key = `${d.from.x}-${d.from.y}`;
 				if (!drawn.has(key)) {
-					createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: false}); // ❗這行讓它仍然可點擊，只是不會開影片
+					createPoint(d.from.x, d.from.y, 'yellow', { 
+						videoYT: d.videoYT,  // YouTube 影片網址
+						videoTikTok: d.videoTikTok,  // TikTok 影片網址 
+						enableVideo: false}); // ❗這行讓它仍然可點擊，只是不會開影片
 					drawn.add(key);
 				}
 			}
@@ -432,7 +484,10 @@
 		if (selectedPoint) {
 			const related = entries.filter(d => isSame(d.from, selectedPoint));
 			for (const d of related) {
-				createPoint(d.to.x, d.to.y, 'red', { video: d.video, enableVideo: true });
+				createPoint(d.to.x, d.to.y, 'red', { 
+					videoYT: d.videoYT,  // YouTube 影片網址
+					videoTikTok: d.videoTikTok,  // TikTok 影片網址 
+					enableVideo: true });
 				drawLine(d.from, d.to);
 			}
 		}
@@ -451,13 +506,19 @@
 		  if (selectedPoint) {
 			const related = entries.filter(d => isSame(d.to, selectedPoint));
 			for (const d of related) {
-				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, enableVideo: true });
+				createPoint(d.from.x, d.from.y, 'yellow', { 
+					videoYT: d.videoYT,  // YouTube 影片網址
+					videoTikTok: d.videoTikTok,  // TikTok 影片網址 
+					enableVideo: true });
 				drawLine(d.from, d.to);
 			}
 		}
 		} else if (editMode) {
 			for (const d of entries) {
-				createPoint(d.from.x, d.from.y, 'yellow', { video: d.video, note: d.note });
+				createPoint(d.from.x, d.from.y, 'yellow', { 
+					videoYT: d.videoYT,  // YouTube 影片網址
+					videoTikTok: d.videoTikTok,  // TikTok 影片網址 
+					note: d.note });
 				createPoint(d.to.x, d.to.y, 'red', {});
 				drawLine(d.from, d.to);
 			}
@@ -484,9 +545,13 @@
 		);
 
 		// 建立輸入欄位與按鈕
-		const videoInput = document.createElement('input');
-		videoInput.placeholder = '影片連結（可空白）';
-		videoInput.value = target?.video || '';
+		const videoYTInput = document.createElement('input');
+		videoYTInput.placeholder = 'YouTube 影片連結';
+		videoYTInput.value = '';
+
+		const videoTikTokInput = document.createElement('input');
+		videoTikTokInput.placeholder = 'TikTok 影片連結';
+		videoTikTokInput.value = '';
 
 		const noteInput = document.createElement('input');
 		noteInput.placeholder = '備註內容（可空白）';
@@ -496,7 +561,8 @@
 		saveBtn.textContent = '儲存';
 		saveBtn.onclick = () => {
 			if (target) {
-				target.video = videoInput.value.trim();
+				target.videoYT = videoYTInput.value.trim();
+				target.videoTikTok = videoTikTokInput.value.trim();
 				target.note = noteInput.value.trim();
 				render();
 				}
@@ -515,7 +581,8 @@
 			box.remove();
 		};
 
-		box.appendChild(videoInput);
+		box.appendChild(videoYTInput);
+		box.appendChild(videoTikTokInput);
 		box.appendChild(noteInput);
 		box.appendChild(saveBtn);
 		box.appendChild(deleteBtn);
@@ -562,6 +629,10 @@
 		selectedPoint = null;
 		stage = modeSelect.value;
 		render(); // ← 重新根據新的模式顯示對應的點
+	});
+	
+	platformSelect.addEventListener('change', () => {
+		currentPlatform = platformSelect.value; // 'yt' 或 'tiktok'
 	});
 	
 	// 🔧 新增：切換編輯模式按鈕功能
@@ -638,10 +709,14 @@
 		box.className = 'edit-box';
 		box.style.left = `${screenX}px`;
 		box.style.top = `${screenY}px`;
+		
+		const videoYTInput = document.createElement('input');
+		videoYTInput.placeholder = 'YouTube 影片連結';
+		videoYTInput.value = '';
 
-		const videoInput = document.createElement('input');
-		videoInput.placeholder = '影片連結';
-		videoInput.value = '';
+		const videoTikTokInput = document.createElement('input');
+		videoTikTokInput.placeholder = 'TikTok 影片連結';
+		videoTikTokInput.value = '';
 
 		const noteInput = document.createElement('input');
 		noteInput.placeholder = '備註內容';
@@ -654,7 +729,8 @@
 			map: currentMapKey,
 			from,
 			to,
-			video: videoInput.value.trim(),
+			videoYT: videoYTInput.value.trim(),
+			videoTikTok: videoTikTokInput.value.trim(),
 			note: noteInput.value.trim()
 		  });
 
@@ -662,7 +738,8 @@
 		box.remove();
 		};
 
-		box.appendChild(videoInput);
+		box.appendChild(videoYTInput);
+		box.appendChild(videoTikTokInput);
 		box.appendChild(noteInput);
 		box.appendChild(addBtn);
 
