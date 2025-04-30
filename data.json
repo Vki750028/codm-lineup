@@ -349,6 +349,20 @@
 	  "videoYT": "https://youtu.be/tSTR3WZAuNs",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7496772059394051383",
       "note": "A大丟A小斜坡三箱位"
+    },
+    {
+      "map": "standoff",
+      "from": {
+        "x": 0.7712215320910973,
+        "y": 0.47503865874501505
+      },
+      "to": {
+        "x": 0.44881889763779526,
+        "y": 0.4875777935520082
+      },
+      "videoYT": "https://youtu.be/1nO30AUAYWQ",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7498993034256829751",
+      "note": "A點油桶丟旅館2樓"
     }
   ]
 }
