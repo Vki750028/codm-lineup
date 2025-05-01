@@ -363,6 +363,20 @@
       "videoYT": "https://youtu.be/1nO30AUAYWQ",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7498993034256829751",
       "note": "A點油桶丟旅館2樓"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.6231884057971014,
+        "y": 0.35759618596459264
+      },
+      "to": {
+        "x": 0.6708074534161491,
+        "y": 0.6685493911511949
+      },
+      "videoYT": "https://youtu.be/9rJg-ah6WTs",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7499366619550862647",
+      "note": "A大丟連接"
     }
   ]
 }
