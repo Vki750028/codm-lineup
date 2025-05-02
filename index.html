@@ -637,7 +637,7 @@
 	
 	// 🔧 新增：切換編輯模式按鈕功能
 	modeToggle.addEventListener('click', () => {
-		
+		/*
 		// 👀 如果即將切換成編輯模式，先跳轉 TikTok，再 return，不切模式
 		if (!editMode) {
 			window.location.href = 'https://www.tiktok.com/@vki.07?referer_url=codm-lineup.vercel.app%2F&refer=embed&embed_source=...';
@@ -645,6 +645,8 @@
 		}
 		// 👉 如果是從編輯模式切回瀏覽模式，就照原本流程處理
 		editMode = false;
+        */
+		editMode = !editMode; 
 		selectedPoint = null;           // 清除選取點
 		stage = null;                   // 清除階段
 		modeSelect.disabled = editMode; // 編輯模式時停用顯示模式選單
