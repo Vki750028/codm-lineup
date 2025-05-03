@@ -391,6 +391,20 @@
       "videoYT": "https://youtu.be/no-nNJ7rUNA",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7499745097286782213",
       "note": "輪胎丟向 B 道第一個油桶位"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.7348836513895527,
+        "y": 0.6800693137404881
+      },
+      "to": {
+        "x": 0.6875968341587904,
+        "y": 0.21838654897113657
+      },
+      "videoYT": "https://youtu.be/_H1Ngcsq69k",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7500188121774951735",
+      "note": "A 油桶丟向 B 包點"
     }
   ]
 }
