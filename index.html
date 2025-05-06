@@ -311,8 +311,10 @@
 		}
 
 		const iframe = document.createElement('iframe');
-		iframe.width = "560";
-		iframe.height = "315";
+		iframe.style.width = "100%";
+		iframe.style.maxWidth = "560px";
+		iframe.style.height = "auto";
+		iframe.style.maxHeight = "315px";
 		iframe.src = `https://www.youtube.com/embed/${videoId}`;
 		iframe.title = "YouTube video player";
 		iframe.frameBorder = "0";
