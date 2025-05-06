@@ -419,6 +419,20 @@
       "videoYT": "https://youtu.be/Xxq9q1V4IWo",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7500863304420560133",
       "note": "穀倉外輪胎丟向後巷冰箱位"
+    },
+    {
+      "map": "standoff",
+      "from": {
+        "x": 0.44496119820422286,
+        "y": 0.6289474998745389
+      },
+      "to": {
+        "x": 0.750387525891442,
+        "y": 0.5938431509976466
+      },
+      "videoYT": "https://youtu.be/RA0Mrk4MtW4?si=fbQZ-pezi7dJONxI",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501221845379697925",
+      "note": "破牆炸 A 包點"
     }
   ]
 }
