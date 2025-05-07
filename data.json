@@ -433,6 +433,20 @@
       "videoYT": "https://youtu.be/RA0Mrk4MtW4?si=fbQZ-pezi7dJONxI",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501221845379697925",
       "note": "破牆炸 A 包點"
+    },
+    {
+      "map": "standoff",
+      "from": {
+        "x": 0.7147286145370967,
+        "y": 0.28093771315888383
+      },
+      "to": {
+        "x": 0.7310076827640805,
+        "y": 0.6085783026765447
+      },
+      "videoYT": "https://youtube.com/shorts/wMr4hluLQHk?si=KT8TBP-Gwc_u-UUj",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501597344220138757?lang=zh-Hant-TW",
+      "note": "防守方家炸 A 包點"
     }
   ]
 }
