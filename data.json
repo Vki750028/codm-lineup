@@ -447,6 +447,20 @@
       "videoYT": "https://youtu.be/9kh2066u9ro",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501597344220138757?lang=zh-Hant-TW",
       "note": "防守方家炸 A 包點"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.2558139292811734,
+        "y": 0.5946648668340139
+      },
+      "to": {
+        "x": 0.6496123416291616,
+        "y": 0.7372636025475512
+      },
+      "videoYT": "https://youtu.be/y6527biIaH8",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501964196867771703",
+      "note": "板房後方涼亭炸白倉"
     }
   ]
 }
