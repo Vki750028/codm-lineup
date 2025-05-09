@@ -461,6 +461,20 @@
       "videoYT": "https://youtu.be/y6527biIaH8",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7501964196867771703",
       "note": "板房後方涼亭炸白倉"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.3448818765039879,
+        "y": 0.39506960390165835
+      },
+      "to": {
+        "x": 0.6444094240430678,
+        "y": 0.07276330676968264
+      },
+      "videoYT": "https://youtube.com/shorts/w0qb1yrGIBs?si=XGqra7La7dQeHBql",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7502329450458090758",
+      "note": "板房後方炸B後點軍備箱"
     }
   ]
 }
