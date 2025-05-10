@@ -475,6 +475,20 @@
       "videoYT": "https://youtube.com/shorts/w0qb1yrGIBs?si=XGqra7La7dQeHBql",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7502329450458090758",
       "note": "板房後方炸B後點軍備箱"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.24806199203022877,
+        "y": 0.5405668006496722
+      },
+      "to": {
+        "x": 0.6131782365497217,
+        "y": 0.24633865911370897
+      },
+      "videoYT": "https://youtube.com/shorts/-pLsd6_d80Q?feature=share",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7502694468819242245",
+      "note": "防守方家炸B點小房間"
     }
   ]
 }
