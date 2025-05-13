@@ -489,6 +489,20 @@
       "videoYT": "https://youtube.com/shorts/-pLsd6_d80Q?feature=share",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7502694468819242245",
       "note": "防守方家炸B點小房間"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.6658053402239449,
+        "y": 0.7516966121511026
+      },
+      "to": {
+        "x": 0.21963824289405684,
+        "y": 0.8480238667974682
+      },
+      "videoYT": "https://youtube.com/shorts/ZWmWLBzZj9M?si=TW_plkxl1of3uN7a",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7503814900771261701?lang=zh-Hant-TW",
+      "note": "白倉 炸 A大紅房"
     }
   ]
 }
