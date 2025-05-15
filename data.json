@@ -503,6 +503,20 @@
       "videoYT": "https://youtube.com/shorts/ZWmWLBzZj9M?si=TW_plkxl1of3uN7a",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7503814900771261701?lang=zh-Hant-TW",
       "note": "白倉 炸 A大紅房"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.6365202411714039,
+        "y": 0.3491862980930751
+      },
+      "to": {
+        "x": 0.6520241171403962,
+        "y": 0.07998602394742854
+      },
+      "videoYT": "https://youtube.com/shorts/UsknUlTkkl8?si=h8QN0OwFrnwUk8e8",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7504587089082584326?lang=zh-Hant-TW",
+      "note": "連接 炸 B後點軍備箱"
     }
   ]
 }
