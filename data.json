@@ -517,6 +517,20 @@
       "videoYT": "https://youtube.com/shorts/UsknUlTkkl8?si=h8QN0OwFrnwUk8e8",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7504587089082584326?lang=zh-Hant-TW",
       "note": "連接 炸 B後點軍備箱"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.595176571920758,
+        "y": 0.2911303818652061
+      },
+      "to": {
+        "x": 0.4900947459086994,
+        "y": 0.6046554084892743
+      },
+      "videoYT": "https://youtube.com/shorts/boO00I23ndI?si=2Ki2XxOIEGPQgI2O",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7506058712474225926",
+      "note": "洗衣房外的樓梯 炸 中路側梯"
     }
   ]
 }
