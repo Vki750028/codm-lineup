@@ -531,6 +531,20 @@
       "videoYT": "https://youtube.com/shorts/boO00I23ndI?si=2Ki2XxOIEGPQgI2O",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7506058712474225926",
       "note": "洗衣房外的樓梯 炸 中路側梯"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.2248062015503876,
+        "y": 0.4342613722805416
+      },
+      "to": {
+        "x": 0.4289405684754522,
+        "y": 0.177209797657082
+      },
+      "videoYT": "https://youtube.com/shorts/dhE5BkTn9aY?si=i1WnNc132ZEgz5l7",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7507986477905677573",
+      "note": "車道黃車炸B點的豆腐塊"
     }
   ]
 }
