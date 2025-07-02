@@ -545,6 +545,34 @@
       "videoYT": "https://youtube.com/shorts/dhE5BkTn9aY?si=i1WnNc132ZEgz5l7",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7507986477905677573",
       "note": "車道黃車炸B點的豆腐塊"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.5745047372954349,
+        "y": 0.7064443747436485
+      },
+      "to": {
+        "x": 0.42118863049095606,
+        "y": 0.44625666513861073
+      },
+      "videoYT": "https://youtube.com/shorts/mUoQTbx4w04?si=d9_GYlxT7elm2NDG",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7522396647071042821?lang=zh-Hant-TW",
+      "note": "進攻方前花圃炸A包點"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.4263565891472868,
+        "y": 0.4408521726542331
+      },
+      "to": {
+        "x": 0.5813953488372093,
+        "y": 0.7141650782927594
+      },
+      "videoYT": "https://youtube.com/shorts/C-1wraf_IoQ?si=giwZqFy2yIADj81m",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7522547303643729157?lang=zh-Hant-TW",
+      "note": "A包點炸進攻方前的花圃"
     }
   ]
 }
