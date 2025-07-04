@@ -573,6 +573,20 @@
       "videoYT": "https://youtube.com/shorts/C-1wraf_IoQ?si=giwZqFy2yIADj81m",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7522547303643729157?lang=zh-Hant-TW",
       "note": "A包點炸進攻方前的花圃"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.6287683031869078,
+        "y": 0.6415904649311168
+      },
+      "to": {
+        "x": 0.5055986218776917,
+        "y": 0.37290998142205706
+      },
+      "videoYT": "https://youtube.com/shorts/8dsZkRrdu8g?si=Uw2TlMzNDcBhYxjL",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7523059066327944454?lang=zh-Hant-TW",
+      "note": "進攻方家 炸 水塔2F"
     }
   ]
 }
