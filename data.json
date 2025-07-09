@@ -587,6 +587,20 @@
       "videoYT": "https://youtube.com/shorts/8dsZkRrdu8g?si=Uw2TlMzNDcBhYxjL",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7523059066327944454?lang=zh-Hant-TW",
       "note": "進攻方家 炸 水塔2F"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.6467191601049869,
+        "y": 0.681341626597262
+      },
+      "to": {
+        "x": 0.662992125984252,
+        "y": 0.4004293675651036
+      },
+      "videoYT": "https://youtube.com/shorts/BkJseSe06EY?si=BckYbusl30JTVGqm",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7524897167182531845?lang=zh-Hant-TW",
+      "note": "進攻方家 炸 機頭"
     }
   ]
 }
