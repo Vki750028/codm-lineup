@@ -651,6 +651,20 @@
       "videoYT": "https://youtube.com/shorts/4jwPJx1fUwg?si=ey-ci1sJpSOWLOxR",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7527936047985020165",
       "note": "防守方小門旁 炸 B外道車子"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.4418604651162791,
+        "y": 0.17390801607261586
+      },
+      "to": {
+        "x": 0.7545219638242894,
+        "y": 0.2978637296562888
+      },
+      "videoYT": "",
+      "videoTikTok": "",
+      "note": "防守方中路 炸 A包點"
     }
   ]
 }
