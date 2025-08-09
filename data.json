@@ -23,6 +23,14 @@
     "standoff": {
       "name": "邊境(Standoff)",
       "image": "public/standoffMap.jpg"
+    },
+    "Vacant": {
+      "name": "辦公室(Vacant)",
+      "image": "public/Vacant.jpg"
+    },
+    "Coastal": {
+      "name": "濱海(Coastal)",
+      "image": "public/Coastal.jpg"
     }
   },
   "data": [
@@ -601,6 +609,34 @@
       "videoYT": "https://youtube.com/shorts/BkJseSe06EY?si=BckYbusl30JTVGqm",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7524897167182531845?lang=zh-Hant-TW",
       "note": "進攻方家 炸 機頭"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.6925064599483204,
+        "y": 0.4197116095305928
+      },
+      "to": {
+        "x": 0.6744186046511628,
+        "y": 0.7327751871312809
+      },
+      "videoYT": "https://youtube.com/shorts/DCSTX15AEcs?si=6WI2z66OOqJzexPc",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7533389610437578040",
+      "note": "中連 炸 白倉"
+    },
+    {
+      "map": "Summit",
+      "from": {
+        "x": 0.28079242032730406,
+        "y": 0.49625105153432575
+      },
+      "to": {
+        "x": 0.5314384151593454,
+        "y": 0.6171927386220938
+      },
+      "videoYT": "https://youtube.com/shorts/N4RSgujZNL4?si=gN_HRVirlFbvKaoC",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7535049923624996101",
+      "note": "B外道 炸 控一大門旁卡頭位"
     }
   ]
 }
