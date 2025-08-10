@@ -324,7 +324,7 @@
 
 	// 輔助：從網址中擷取 YouTube 的 ID
 	function getYouTubeVideoId(url) {
-		const regExp = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+		const regExp = /(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 		const match = url.match(regExp);
 		return match ? match[1] : null;
 	}
@@ -750,3 +750,4 @@
   </script>
 </body>
 </html>
+
