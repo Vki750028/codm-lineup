@@ -300,6 +300,7 @@
 		}
 	}
 	
+	// 嵌入 YouTube 影片（自動判斷比例）
 	function embedYouTube(videoUrl) {
 		const container = document.getElementById('tiktok-player');
 		container.innerHTML = ''; // 清空
@@ -310,19 +311,22 @@
 			return;
 		}
 
+		const isShorts = videoUrl.includes('/shorts/');
+
 		const iframe = document.createElement('iframe');
-		iframe.width = "560";
-		iframe.height = "315";
+		iframe.style.width = "100%";                    // 滿寬
+		iframe.style.maxWidth = isShorts ? "360px" : "560px"; // Shorts 較窄，普通影片較寬
+		iframe.style.aspectRatio = isShorts ? "9 / 16" : "16 / 9"; // 自動比例
 		iframe.src = `https://www.youtube.com/embed/${videoId}`;
 		iframe.title = "YouTube video player";
 		iframe.frameBorder = "0";
 		iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
 		iframe.allowFullscreen = true;
-  
+
 		container.appendChild(iframe);
 	}
 
-	// 輔助：從網址中擷取 YouTube 的 ID
+	// 從網址解析 YouTube 影片 ID（支援 watch, shorts, embed, youtu.be）
 	function getYouTubeVideoId(url) {
 		const regExp = /(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 		const match = url.match(regExp);
@@ -750,4 +754,3 @@
   </script>
 </body>
 </html>
-
