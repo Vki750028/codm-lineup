@@ -665,6 +665,34 @@
       "videoYT": "https://youtube.com/shorts/0VzFRebvItQ?si=mlnEJ8fe92t4N0vh",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7536768471032401157?lang=zh-Hant-TW",
       "note": "防守方中路 炸 A包點"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.5977605512489234,
+        "y": 0.6160920701896232
+      },
+      "to": {
+        "x": 0.7777777777777778,
+        "y": 0.6249857877382923
+      },
+      "videoYT": "https://youtube.com/shorts/-hzNaJ4ohOQ?si=NuJgIZnX9u6_XMgq",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7537996506175933752?lang=zh-Hant-TW",
+      "note": "連接炸四箱"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.7226528854435831,
+        "y": 0.8457116869007163
+      },
+      "to": {
+        "x": 0.8518518518518519,
+        "y": 0.6266028272925958
+      },
+      "videoYT": "https://youtube.com/shorts/HIOIPL3Cpt0?si=8TshZ9YNcZHjF6Km",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7538001387897015557?lang=zh-Hant-TW",
+      "note": "防守方家裡 炸 A小斜坡三箱位"
     }
   ]
 }
