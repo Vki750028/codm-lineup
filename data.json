@@ -693,6 +693,62 @@
       "videoYT": "https://youtube.com/shorts/HIOIPL3Cpt0?si=8TshZ9YNcZHjF6Km",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7538001387897015557?lang=zh-Hant-TW",
       "note": "防守方家裡 炸 A小斜坡三箱位"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.7951301427371956,
+        "y": 0.31053422329499275
+      },
+      "to": {
+        "x": 0.8497061293031066,
+        "y": 0.45713159774389794
+      },
+      "videoYT": "https://youtube.com/shorts/1tdeg8bFxI0?si=6z4TClu1DjK6SLZt",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7538647897370365189?lang=zh-Hant-TW",
+      "note": "黃布上"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.4105793450881612,
+        "y": 0.10730690111871953
+      },
+      "to": {
+        "x": 0.4659949622166247,
+        "y": 0.3796319779074027
+      },
+      "videoYT": "https://youtube.com/shorts/XHasY2uyCTw?si=GftNoxJx7z3FENAg",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7538650730387885368?lang=zh-Hant-TW",
+      "note": "（防守方）中路箱上"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.46011754827875734,
+        "y": 0.8378118765547646
+      },
+      "to": {
+        "x": 0.29219143576826195,
+        "y": 0.4721065983596463
+      },
+      "videoYT": "https://youtube.com/shorts/4EDQ5pH_UdU?si=9jEZXH03YOPWFPE0",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7539025654403042565?lang=zh-Hant-TW",
+      "note": "B點 防守方開局雷"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.20151133501259447,
+        "y": 0.6636796573393073
+      },
+      "to": {
+        "x": 0.47019311502938704,
+        "y": 0.3634006819398653
+      },
+      "videoYT": "https://youtube.com/shorts/b6sTt9vt3z4?si=FRwOyYMnqtL70HOo",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7540278019273805112?lang=zh-Hant-TW",
+      "note": "（進攻方）停車場炸中路箱上"
     }
   ]
 }
