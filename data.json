@@ -749,6 +749,34 @@
       "videoYT": "https://youtube.com/shorts/b6sTt9vt3z4?si=FRwOyYMnqtL70HOo",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7540278019273805112?lang=zh-Hant-TW",
       "note": "（進攻方）停車場炸中路箱上"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.7279596977329975,
+        "y": 0.678603975271545
+      },
+      "to": {
+        "x": 0.5952980688497062,
+        "y": 0.3444250141622128
+      },
+      "videoYT": "https://youtube.com/shorts/4AKNzZgQR4Y?si=9lq2ueVnCW3sC3Uo",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7543647305031748869",
+      "note": "連接 炸 A大陽台窗口"
+    },
+    {
+      "map": "Vacant",
+      "from": {
+        "x": 0.5684298908480269,
+        "y": 0.6921583071050693
+      },
+      "to": {
+        "x": 0.4038623005877414,
+        "y": 0.34072189111364093
+      },
+      "videoYT": "https://youtube.com/shorts/SBOQLvcTB6E?feature=share",
+      "videoTikTok": "",
+      "note": "靠近B窗口箱上"
     }
   ]
 }
