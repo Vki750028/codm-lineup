@@ -31,6 +31,10 @@
     "Coastal": {
       "name": "濱海(Coastal)",
       "image": "public/Coastal.jpg"
+    },
+    "Crash": {
+      "name": "迫降(Crash)",
+      "image": "public/Crash.jpg"
     }
   },
   "data": [
