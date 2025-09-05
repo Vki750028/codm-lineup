@@ -781,6 +781,34 @@
       "videoYT": "https://youtube.com/shorts/SBOQLvcTB6E?feature=share",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7544682567010618630?lang=zh-Hant-TW",
       "note": "靠近B窗口箱上"
+    },
+    {
+      "map": "Crash",
+      "from": {
+        "x": 0.2689210950080515,
+        "y": 0.4693943927665387
+      },
+      "to": {
+        "x": 0.464573268921095,
+        "y": 0.279971378390685
+      },
+      "videoYT": "https://youtube.com/shorts/XeKp3xXPk70?feature=share",
+      "videoTikTok": "",
+      "note": "翻牆位"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.6030595813204509,
+        "y": 0.6235238545111006
+      },
+      "to": {
+        "x": 0.8486312399355878,
+        "y": 0.5517241379310345
+      },
+      "videoYT": "https://youtube.com/shorts/d6WbxT4dG8A?feature=share",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7545794515559271686?lang=zh-Hant-TW",
+      "note": "連接炸A包點"
     }
   ]
 }
