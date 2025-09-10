@@ -809,6 +809,34 @@
       "videoYT": "https://youtube.com/shorts/d6WbxT4dG8A?feature=share",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7545794515559271686?lang=zh-Hant-TW",
       "note": "連接炸A包點"
+    },
+    {
+      "map": "Crash",
+      "from": {
+        "x": 0.2528180354267311,
+        "y": 0.6473687634163794
+      },
+      "to": {
+        "x": 0.5314009661835749,
+        "y": 0.6213491185845313
+      },
+      "videoYT": "https://youtube.com/shorts/PzMjCn_A8mI?si=rATu8tXae7apWVH7",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7547637428513819960?lang=zh-Hant-TW",
+      "note": "進攻方家炸K位"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.4694041867954911,
+        "y": 0.3892300425129901
+      },
+      "to": {
+        "x": 0.47665056360708535,
+        "y": 0.6582900330656589
+      },
+      "videoYT": "https://youtube.com/shorts/awfSAR-qTOA?si=LOe6ZCoIiNOmhOF9",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7548346633361067270?lang=zh-Hant-TW",
+      "note": "中路炸狗洞斜坡"
     }
   ]
 }
