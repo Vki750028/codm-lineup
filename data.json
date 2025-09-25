@@ -837,6 +837,48 @@
       "videoYT": "https://youtube.com/shorts/awfSAR-qTOA?si=LOe6ZCoIiNOmhOF9",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7548346633361067270?lang=zh-Hant-TW",
       "note": "中路炸狗洞斜坡"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.5805152979066023,
+        "y": 0.8820028341993387
+      },
+      "to": {
+        "x": 0.22705314009661837,
+        "y": 0.8427019367028814
+      },
+      "videoYT": "https://youtube.com/shorts/Y1eTZtCpSEo?si=23YJGtSYM9sLMb32",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7549833184230264120",
+      "note": "防守方炸右高台"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.5112721417069244,
+        "y": 0.6401511572980633
+      },
+      "to": {
+        "x": 0.7818035426731079,
+        "y": 0.631837505904582
+      },
+      "videoYT": "https://youtube.com/shorts/bQ-Xs_zXDcE?si=GwYMmJM-1vgifPfI",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7550830483089673528",
+      "note": "中路炸四箱"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.392109500805153,
+        "y": 0.44241460581661535
+      },
+      "to": {
+        "x": 0.717391304347826,
+        "y": 0.5138649255161992
+      },
+      "videoYT": "https://youtube.com/shorts/Ej6n4HCe_ug?si=_OE8wrgcH1I_UM9C",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7553735328528338188",
+      "note": "A點炸B通"
     }
   ]
 }
