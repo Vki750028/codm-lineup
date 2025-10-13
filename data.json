@@ -879,6 +879,48 @@
       "videoYT": "https://youtube.com/shorts/Ej6n4HCe_ug?si=_OE8wrgcH1I_UM9C",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7553735328528338188",
       "note": "A點炸B通"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.8325281803542673,
+        "y": 0.14873062840311838
+      },
+      "to": {
+        "x": 0.7552334943639292,
+        "y": 0.610487346817451
+      },
+      "videoYT": "https://youtube.com/shorts/gFkH-zmwfRc?si=qtMEiSOhMw_X1DYv",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7557608477569371403",
+      "note": "A大石頭拱門"
+    },
+    {
+      "map": "Raid",
+      "from": {
+        "x": 0.27938808373590984,
+        "y": 0.5197110188292849
+      },
+      "to": {
+        "x": 0.573268921095008,
+        "y": 0.4259627965185733
+      },
+      "videoYT": "https://youtube.com/shorts/RvOgJb0gXzg?si=ISoiSL51dN_reZEK",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7558758276041575691",
+      "note": "廚房前左側角落"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.6755233494363929,
+        "y": 0.7090646237823085
+      },
+      "to": {
+        "x": 0.47665056360708535,
+        "y": 0.3683677191844676
+      },
+      "videoYT": "https://youtube.com/shorts/XkthaUdsMuQ?si=l7tr1y5Qm1_B7wcJ",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7560338128817409336",
+      "note": "A大拱門外車子 炸 中路箱上"
     }
   ]
 }
