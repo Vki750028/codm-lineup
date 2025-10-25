@@ -921,6 +921,20 @@
       "videoYT": "https://youtube.com/shorts/XkthaUdsMuQ?si=l7tr1y5Qm1_B7wcJ",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7560338128817409336",
       "note": "A大拱門外車子 炸 中路箱上"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.8333333333333334,
+        "y": 0.25566233276804223
+      },
+      "to": {
+        "x": 0.3969404186795491,
+        "y": 0.35374662395578166
+      },
+      "videoYT": "https://youtube.com/shorts/2XoIIiORBL0?si=BLPMRthId1b49m-H",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7565052930504559880?lang=zh-Hant-TW",
+      "note": "B道第二個油桶位"
     }
   ]
 }
