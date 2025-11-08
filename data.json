@@ -935,6 +935,34 @@
       "videoYT": "https://youtube.com/shorts/2XoIIiORBL0?si=BLPMRthId1b49m-H",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7565052930504559880?lang=zh-Hant-TW",
       "note": "B道第二個油桶位"
+    },
+    {
+      "map": "FiringRange",
+      "from": {
+        "x": 0.8671497584541062,
+        "y": 0.4671063375416117
+      },
+      "to": {
+        "x": 0.6521739130434783,
+        "y": 0.0828088687896489
+      },
+      "videoYT": "https://youtube.com/shorts/9O9lhztGAco?si=qle-YxwYBPAdKBJs",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7567414467558968584",
+      "note": "防守方 炸  B後點軍備箱"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.7262479871175523,
+        "y": 0.8487482286254133
+      },
+      "to": {
+        "x": 0.8494363929146538,
+        "y": 0.550968351440718
+      },
+      "videoYT": "https://youtube.com/shorts/qRfMl0YYLGs?si=rVr0XDFlgh0AhO-F",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7569534764928126215",
+      "note": "防守方家炸A包點"
     }
   ]
 }
