@@ -963,6 +963,76 @@
       "videoYT": "https://youtube.com/shorts/qRfMl0YYLGs?si=rVr0XDFlgh0AhO-F",
       "videoTikTok": "https://www.tiktok.com/@vki.07/video/7569534764928126215",
       "note": "防守方家炸A包點"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.33011272141706927,
+        "y": 0.4655644780349551
+      },
+      "to": {
+        "x": 0.3357487922705314,
+        "y": 0.7905526688710439
+      },
+      "videoYT": "https://youtube.com/shorts/MxJ7gBv8_MY?si=RZtuuhn7k8J05pVq",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7571022163092851976",
+      "note": "B點左高台"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.6272141706924316,
+        "y": 0.731601322626358
+      },
+      "to": {
+        "x": 0.9090177133655395,
+        "y": 0.4670760510155881
+      },
+      "videoYT": "https://youtube.com/shorts/vHE7Et9Un78?si=IdnaFuTrl1z71W4A",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7572560800297012487",
+      "note": "酒窖"
+    },
+    {
+      "map": "Tunisia",
+      "from": {
+        "x": 0.2632850241545894,
+        "y": 0.48068020784128485
+      },
+      "to": {
+        "x": 0.2584541062801932,
+        "y": 0.868398677373642
+      },
+      "videoYT": "https://youtube.com/shorts/aFsjhdwpIsA?feature=share",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7573366949602659592",
+      "note": "B點右高台後方"
+    },
+    {
+      "map": "Crash",
+      "from": {
+        "x": 0.4758454106280193,
+        "y": 0.29454237949651985
+      },
+      "to": {
+        "x": 0.2721417069243156,
+        "y": 0.21336108762115397
+      },
+      "videoYT": "https://youtube.com/shorts/vxR9UXj50FQ?feature=share",
+      "videoTikTok": "",
+      "note": "綠車"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.2069243156199678,
+        "y": 0.6710172537256969
+      },
+      "to": {
+        "x": 0.6135265700483091,
+        "y": 0.5361220326158918
+      },
+      "videoYT": "https://youtube.com/shorts/KraGUQwdp7I?feature=share",
+      "videoTikTok": "",
+      "note": "濱海酒鎮 A小"
     }
   ]
 }
