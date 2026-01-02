@@ -1031,8 +1031,64 @@
         "y": 0.5361220326158918
       },
       "videoYT": "https://youtube.com/shorts/KraGUQwdp7I?feature=share",
-      "videoTikTok": "",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7576485092118301960",
       "note": "濱海酒鎮 A小"
+    },
+    {
+      "map": "Vacant",
+      "from": {
+        "x": 0.5076645626690712,
+        "y": 0.24010835560776228
+      },
+      "to": {
+        "x": 0.40577096483318303,
+        "y": 0.7218593055172662
+      },
+      "videoYT": "https://youtube.com/shorts/4el_jvVKCCU?si=gm9k48fqs_YHCD4Y",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7581285375625186581",
+      "note": "辦公室 南方走廊"
+    },
+    {
+      "map": "Coastal",
+      "from": {
+        "x": 0.7862939585211902,
+        "y": 0.5258443287737562
+      },
+      "to": {
+        "x": 0.7024346257889991,
+        "y": 0.235322600169471
+      },
+      "videoYT": "https://youtube.com/shorts/LIttKJEvK00?si=1rSV1Zr822KWts4y",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7582808661429456148",
+      "note": "濱海酒鎮 A點水果攤"
+    },
+    {
+      "map": "Vacant",
+      "from": {
+        "x": 0.3318304779080252,
+        "y": 0.7210921861702765
+      },
+      "to": {
+        "x": 0.824165915238954,
+        "y": 0.619832432367642
+      },
+      "videoYT": "https://youtube.com/shorts/rcES8X-5HD8?si=QrjExvy_xktUrS9h",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7583936575105502484",
+      "note": "廢棄辦公室 A包點"
+    },
+    {
+      "map": "Terminal",
+      "from": {
+        "x": 0.5256988277727682,
+        "y": 0.37261464240158626
+      },
+      "to": {
+        "x": 0.7412082957619477,
+        "y": 0.500322046955709
+      },
+      "videoYT": "https://youtube.com/shorts/b80cPQ8bDaw?si=c3YtyLczzsV6nKsg",
+      "videoTikTok": "https://www.tiktok.com/@vki.07/video/7586604076352179463",
+      "note": "浴血航廈 B通"
     }
   ]
 }
